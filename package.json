@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "description": "CLI that diagnoses projects and generates AI-friendly architectural metadata to prevent code duplication",
   "bin": {
-    "aicodesight": "./bin/aicodesight.js"
+    "aicodesight": "bin/aicodesight.js"
   },
   "main": "./dist/index.js",
   "scripts": {
