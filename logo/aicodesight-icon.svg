@@ -1,0 +1,91 @@
+<svg width="400" height="400" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="irisGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#06b6d4" stop-opacity="0.3"/>
+      <stop offset="70%" stop-color="#06b6d4" stop-opacity="0.05"/>
+      <stop offset="100%" stop-color="#06b6d4" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="pupilGrad" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#f59e0b" stop-opacity="0.9"/>
+      <stop offset="40%" stop-color="#d97706" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#92400e" stop-opacity="0.1"/>
+    </radialGradient>
+    <linearGradient id="scanGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#06b6d4" stop-opacity="0"/>
+      <stop offset="50%" stop-color="#22d3ee" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#06b6d4" stop-opacity="0"/>
+    </linearGradient>
+    <radialGradient id="eyeFill" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#0e2a3f" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#0a1628" stop-opacity="0.95"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Targeting brackets -->
+  <path d="M 70,110 L 70,90 L 90,90" stroke="#1e3a5f" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+  <path d="M 330,110 L 330,90 L 310,90" stroke="#1e3a5f" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+  <path d="M 70,290 L 70,310 L 90,310" stroke="#1e3a5f" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+  <path d="M 330,290 L 330,310 L 310,310" stroke="#1e3a5f" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+
+  <!-- Scan line -->
+  <line x1="60" y1="200" x2="340" y2="200" stroke="url(#scanGrad)" stroke-width="0.8" opacity="0.5"/>
+
+  <!-- Eye fill -->
+  <path d="M 60,200 C 60,140 130,90 200,90 C 270,90 340,140 340,200 C 340,260 270,310 200,310 C 130,310 60,260 60,200 Z" fill="url(#eyeFill)"/>
+
+  <!-- Upper eyelid -->
+  <path d="M 55,200 C 80,125 140,80 200,80 C 260,80 320,125 345,200" stroke="#06b6d4" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+  <!-- Lower eyelid -->
+  <path d="M 55,200 C 80,275 140,320 200,320 C 260,320 320,275 345,200" stroke="#06b6d4" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+
+  <!-- Inner lids -->
+  <path d="M 80,200 C 95,145 145,110 200,110 C 255,110 305,145 320,200" stroke="#0e7490" stroke-width="0.8" fill="none" opacity="0.5"/>
+  <path d="M 80,200 C 95,255 145,290 200,290 C 255,290 305,255 320,200" stroke="#0e7490" stroke-width="0.8" fill="none" opacity="0.5"/>
+
+  <!-- Iris glow -->
+  <circle cx="200" cy="200" r="70" fill="url(#irisGlow)"/>
+  <!-- Outer iris ring (dashed circuit) -->
+  <circle cx="200" cy="200" r="65" fill="none" stroke="#0891b2" stroke-width="1" stroke-dasharray="8 4 2 4" opacity="0.7"/>
+  <!-- Middle iris ring -->
+  <circle cx="200" cy="200" r="52" fill="none" stroke="#06b6d4" stroke-width="1.5" opacity="0.6"/>
+
+  <!-- Circuit tick marks -->
+  <line x1="200" y1="135" x2="200" y2="148" stroke="#0e7490" stroke-width="0.8" opacity="0.6"/>
+  <line x1="200" y1="252" x2="200" y2="265" stroke="#0e7490" stroke-width="0.8" opacity="0.6"/>
+  <line x1="135" y1="200" x2="148" y2="200" stroke="#0e7490" stroke-width="0.8" opacity="0.6"/>
+  <line x1="252" y1="200" x2="265" y2="200" stroke="#0e7490" stroke-width="0.8" opacity="0.6"/>
+
+  <!-- Diagonal ticks -->
+  <line x1="155" y1="155" x2="163" y2="163" stroke="#0e7490" stroke-width="0.6" opacity="0.4"/>
+  <line x1="245" y1="155" x2="237" y2="163" stroke="#0e7490" stroke-width="0.6" opacity="0.4"/>
+  <line x1="155" y1="245" x2="163" y2="237" stroke="#0e7490" stroke-width="0.6" opacity="0.4"/>
+  <line x1="245" y1="245" x2="237" y2="237" stroke="#0e7490" stroke-width="0.6" opacity="0.4"/>
+
+  <!-- Circuit nodes -->
+  <circle cx="200" cy="135" r="2" fill="#0891b2" opacity="0.5"/>
+  <circle cx="200" cy="265" r="2" fill="#0891b2" opacity="0.5"/>
+  <circle cx="135" cy="200" r="2" fill="#0891b2" opacity="0.5"/>
+  <circle cx="265" cy="200" r="2" fill="#0891b2" opacity="0.5"/>
+
+  <!-- Pupil glow -->
+  <circle cx="200" cy="200" r="28" fill="url(#pupilGrad)" opacity="0.6"/>
+  <!-- Pupil core -->
+  <circle cx="200" cy="200" r="22" fill="#0c0f1a" stroke="#d97706" stroke-width="1.5" opacity="0.9"/>
+
+  <!-- Code brackets { } -->
+  <text x="188" y="208" fill="#f59e0b" font-family="'JetBrains Mono', 'Fira Code', 'Courier New', monospace" font-size="22" font-weight="700" opacity="0.9">{</text>
+  <text x="203" y="208" fill="#f59e0b" font-family="'JetBrains Mono', 'Fira Code', 'Courier New', monospace" font-size="22" font-weight="700" opacity="0.9">}</text>
+
+  <!-- Reflection -->
+  <circle cx="210" cy="192" r="3" fill="#ffffff" opacity="0.3"/>
+
+  <!-- Data particles -->
+  <circle cx="90" cy="160" r="1.5" fill="#06b6d4" opacity="0.4"/>
+  <circle cx="75" cy="220" r="1" fill="#06b6d4" opacity="0.3"/>
+  <circle cx="310" cy="170" r="1.5" fill="#06b6d4" opacity="0.4"/>
+  <circle cx="325" cy="235" r="1" fill="#06b6d4" opacity="0.3"/>
+
+  <!-- Eye tip accents -->
+  <path d="M 52,200 L 42,195 M 52,200 L 42,205" stroke="#06b6d4" stroke-width="1" opacity="0.5" stroke-linecap="round"/>
+  <path d="M 348,200 L 358,195 M 348,200 L 358,205" stroke="#06b6d4" stroke-width="1" opacity="0.5" stroke-linecap="round"/>
+</svg>

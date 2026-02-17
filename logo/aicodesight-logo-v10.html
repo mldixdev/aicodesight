@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AICodeSight — Logo v10 (v7 + v3 Fusion)</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;700&family=Outfit:wght@300;600;800&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: #04060b;
+    color: #e2e8f0;
+    font-family: 'Outfit', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 20px;
+  }
+
+  h1 {
+    font-size: 13px; font-weight: 300; letter-spacing: 6px;
+    text-transform: uppercase; color: #64748b; margin-bottom: 50px;
+  }
+
+  .showcase {
+    display: flex; flex-direction: column; align-items: center;
+    gap: 60px; max-width: 1000px; width: 100%;
+  }
+
+  .logo-main {
+    display: flex; flex-direction: column; align-items: center; gap: 8px;
+  }
+
+  .variations {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 30px; width: 100%;
+  }
+  .variation {
+    display: flex; flex-direction: column; align-items: center; gap: 14px;
+    padding: 30px 16px; border-radius: 14px; border: 1px solid #1e293b;
+  }
+  .variation.dark { background: #0f172a; }
+  .variation.light { background: #f0f4f8; }
+  .variation.midnight { background: #000000; }
+  .variation label {
+    font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: #64748b;
+  }
+  .variation.light label { color: #475569; }
+
+  /* ===== CODE SCROLL ===== */
+  @keyframes sc1 { from { transform: translateX(0); } to { transform: translateX(-520px); } }
+  @keyframes sc2 { from { transform: translateX(0); } to { transform: translateX(-480px); } }
+  @keyframes sc3 { from { transform: translateX(0); } to { transform: translateX(-540px); } }
+  @keyframes sc4 { from { transform: translateX(0); } to { transform: translateX(-500px); } }
+  @keyframes sc5 { from { transform: translateX(0); } to { transform: translateX(-530px); } }
+  @keyframes sc6 { from { transform: translateX(0); } to { transform: translateX(-460px); } }
+  @keyframes sc7 { from { transform: translateX(0); } to { transform: translateX(-510px); } }
+  @keyframes sc8 { from { transform: translateX(0); } to { transform: translateX(-490px); } }
+  @keyframes sc9 { from { transform: translateX(0); } to { transform: translateX(-550px); } }
+  @keyframes sc10 { from { transform: translateX(0); } to { transform: translateX(-470px); } }
+
+  .cl1 { animation: sc1 8s linear infinite; }
+  .cl2 { animation: sc2 9s linear infinite; }
+  .cl3 { animation: sc3 7s linear infinite; }
+  .cl4 { animation: sc4 8.5s linear infinite; }
+  .cl5 { animation: sc5 7.5s linear infinite; }
+  .cl6 { animation: sc6 9.5s linear infinite; }
+  .cl7 { animation: sc7 6.5s linear infinite; }
+  .cl8 { animation: sc8 8s linear infinite; }
+  .cl9 { animation: sc9 7s linear infinite; }
+  .cl10 { animation: sc10 9s linear infinite; }
+
+  @keyframes dupFlash { 0%, 100% { opacity: 1; } 50% { opacity: 0.6; } }
+  .dup-text { animation: dupFlash 1.5s ease-in-out infinite; }
+
+  /* ===== EYE ANIMATIONS ===== */
+  @keyframes scanPulse { 0%, 100% { opacity: 0.15; } 50% { opacity: 0.5; } }
+  @keyframes pupilGlow { 0%, 100% { opacity: 0.5; } 50% { opacity: 1; } }
+  @keyframes ringPulse { 0%, 100% { opacity: 0.15; } 50% { opacity: 0.35; } }
+  @keyframes particlePulse { 0%, 100% { opacity: 0.15; } 50% { opacity: 0.6; } }
+  @keyframes labelPulse { 0%, 100% { opacity: 0.45; } 50% { opacity: 0.75; } }
+  @keyframes pupilDotPulse { 0%, 100% { opacity: 0.4; r: 2; } 50% { opacity: 0.9; r: 3; } }
+
+  .scan-line { animation: scanPulse 3s ease-in-out infinite; }
+  .pupil-glow { animation: pupilGlow 2.5s ease-in-out infinite; }
+  .ring-pulse { animation: ringPulse 4s ease-in-out infinite; }
+  .particle { animation: particlePulse 2s ease-in-out infinite; }
+  .particle:nth-child(2n) { animation-delay: 0.7s; }
+  .particle:nth-child(3n) { animation-delay: 1.3s; }
+  .hex-label { animation: labelPulse 3s ease-in-out infinite; }
+  .hex-label:nth-child(2n) { animation-delay: 0.5s; }
+  .hex-label:nth-child(3n) { animation-delay: 1s; }
+  .pupil-dot { animation: pupilDotPulse 2s ease-in-out infinite; }
+
+  /* ===== SHIELD ANIMATIONS ===== */
+  @keyframes shieldBreathe { 0%, 100% { opacity: 0.03; } 50% { opacity: 0.09; } }
+  @keyframes shieldPulse { 0%, 100% { opacity: 0.55; } 40% { opacity: 0.85; } }
+  @keyframes shieldRipple { 0% { opacity: 0.28; } 100% { opacity: 0; } }
+  @keyframes shieldEdgeGlow { 0%, 100% { opacity: 0.1; } 50% { opacity: 0.3; } }
+
+  .shield-breathe { animation: shieldBreathe 4s ease-in-out infinite; }
+  .shield-pulse { animation: shieldPulse 3.5s ease-in-out infinite; }
+  .shield-ripple-1 { animation: shieldRipple 3s ease-out infinite; }
+  .shield-ripple-2 { animation: shieldRipple 3s ease-out infinite; animation-delay: 0.5s; opacity: 0; }
+  .shield-edge-glow { animation: shieldEdgeGlow 3.5s ease-in-out infinite; }
+
+  /* ===== V3 IRIS ROTATION — circles orbiting around the iris ===== */
+  @keyframes irisRotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+  @keyframes irisRotateRev { from { transform: rotate(360deg); } to { transform: rotate(0deg); } }
+
+  /* Offset transform-origin by ~20 units from circle center (260,240) to create
+     the asymmetric orbital wobble from v3 (v3 had circles at 220,220 with origin at 200,200) */
+  .iris-rotate-cw { transform-origin: 240px 220px; animation: irisRotate 25s linear infinite; }
+  .iris-rotate-ccw { transform-origin: 240px 220px; animation: irisRotateRev 18s linear infinite; }
+
+  /* ===== V3 RED DUPLICATE TEXT around hex ===== */
+  @keyframes fadeInDup { 0% { opacity: 0.6; } 50% { opacity: 0.15; } 100% { opacity: 0.6; } }
+  .dup-fade { animation: fadeInDup 4s ease-in-out infinite; }
+
+  /* ===== V3 DATA FLOW LINES ===== */
+  @keyframes dataFlow { 0% { stroke-dashoffset: 20; } 100% { stroke-dashoffset: 0; } }
+  .data-flow { animation: dataFlow 1.5s linear infinite; }
+
+  /* ===== V3 MERGE BRACKETS IN PUPIL ===== */
+  @keyframes mergeLeft {
+    0%, 100% { transform: translateX(-6px); opacity: 0.45; }
+    50% { transform: translateX(-2px); opacity: 0.25; }
+  }
+  @keyframes mergeRight {
+    0%, 100% { transform: translateX(6px); opacity: 0.45; }
+    50% { transform: translateX(2px); opacity: 0.25; }
+  }
+  .merge-l { animation: mergeLeft 3s ease-in-out infinite; }
+  .merge-r { animation: mergeRight 3s ease-in-out infinite; }
+</style>
+</head>
+<body>
+
+<h1>AICodeSight — Logo v10</h1>
+
+<div class="showcase">
+
+  <!-- ========== MAIN LOGO ========== -->
+  <div class="logo-main">
+    <svg class="icon" width="500" height="480" viewBox="0 0 520 480" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <clipPath id="codeClip">
+          <ellipse cx="260" cy="240" rx="76" ry="73"/>
+        </clipPath>
+        <mask id="pupilMask">
+          <rect width="520" height="480" fill="white"/>
+          <ellipse cx="260" cy="240" rx="21" ry="20" fill="black"/>
+        </mask>
+
+        <radialGradient id="irisGlow" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#06b6d4" stop-opacity="0.2"/>
+          <stop offset="100%" stop-color="#06b6d4" stop-opacity="0"/>
+        </radialGradient>
+        <radialGradient id="pupilGrad" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#fbbf24" stop-opacity="0.9"/>
+          <stop offset="50%" stop-color="#d97706" stop-opacity="0.5"/>
+          <stop offset="100%" stop-color="#92400e" stop-opacity="0"/>
+        </radialGradient>
+        <radialGradient id="codeVignette" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#000" stop-opacity="0"/>
+          <stop offset="60%" stop-color="#000" stop-opacity="0"/>
+          <stop offset="100%" stop-color="#000" stop-opacity="0.88"/>
+        </radialGradient>
+        <radialGradient id="eyeFill" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#08141f"/>
+          <stop offset="100%" stop-color="#040a12"/>
+        </radialGradient>
+        <linearGradient id="scanGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="#06b6d4" stop-opacity="0"/>
+          <stop offset="40%" stop-color="#06b6d4" stop-opacity="0.5"/>
+          <stop offset="50%" stop-color="#22d3ee" stop-opacity="1"/>
+          <stop offset="60%" stop-color="#06b6d4" stop-opacity="0.5"/>
+          <stop offset="100%" stop-color="#06b6d4" stop-opacity="0"/>
+        </linearGradient>
+
+        <!-- Shield gradients -->
+        <linearGradient id="shieldFill" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#06b6d4" stop-opacity="0.5"/>
+          <stop offset="40%" stop-color="#0e7490" stop-opacity="0.2"/>
+          <stop offset="70%" stop-color="#d97706" stop-opacity="0.15"/>
+          <stop offset="100%" stop-color="#fbbf24" stop-opacity="0.3"/>
+        </linearGradient>
+        <linearGradient id="shieldEdge" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#22d3ee"/>
+          <stop offset="50%" stop-color="#fbbf24"/>
+          <stop offset="100%" stop-color="#22d3ee"/>
+        </linearGradient>
+
+        <!-- Duplicate fade gradients (red) -->
+        <linearGradient id="dupFadeL" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="#ef4444" stop-opacity="0.7"/>
+          <stop offset="100%" stop-color="#ef4444" stop-opacity="0"/>
+        </linearGradient>
+        <linearGradient id="dupFadeR" x1="100%" y1="0%" x2="0%" y2="0%">
+          <stop offset="0%" stop-color="#ef4444" stop-opacity="0.7"/>
+          <stop offset="100%" stop-color="#ef4444" stop-opacity="0"/>
+        </linearGradient>
+        <!-- Clean data flow gradients (cyan) -->
+        <linearGradient id="dataGradL" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="#06b6d4" stop-opacity="0"/>
+          <stop offset="100%" stop-color="#06b6d4" stop-opacity="0.8"/>
+        </linearGradient>
+        <linearGradient id="dataGradR" x1="100%" y1="0%" x2="0%" y2="0%">
+          <stop offset="0%" stop-color="#06b6d4" stop-opacity="0"/>
+          <stop offset="100%" stop-color="#06b6d4" stop-opacity="0.8"/>
+        </linearGradient>
+
+        <filter id="glow">
+          <feGaussianBlur in="SourceGraphic" stdDeviation="2" result="blur"/>
+          <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+        </filter>
+        <filter id="softGlow"><feGaussianBlur in="SourceGraphic" stdDeviation="8"/></filter>
+        <filter id="medGlow"><feGaussianBlur in="SourceGraphic" stdDeviation="4"/></filter>
+        <filter id="dupGlow">
+          <feGaussianBlur in="SourceGraphic" stdDeviation="2" result="blur"/>
+          <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+        </filter>
+        <filter id="shieldBlur"><feGaussianBlur in="SourceGraphic" stdDeviation="4"/></filter>
+      </defs>
+
+      <!-- ===== HEXAGONAL FRAME + SHIELD ===== -->
+      <polygon class="shield-edge-glow" points="260,50 418,126 418,354 260,430 102,354 102,126"
+               fill="none" stroke="url(#shieldEdge)" stroke-width="3" filter="url(#shieldBlur)"/>
+      <polygon class="shield-ripple-2" points="260,35 431,117 431,363 260,445 89,363 89,117"
+               fill="none" stroke="#22d3ee" stroke-width="0.5"/>
+      <polygon class="shield-ripple-1" points="260,42 424,121 424,359 260,438 96,359 96,121"
+               fill="none" stroke="#22d3ee" stroke-width="0.7"/>
+      <polygon class="shield-breathe" points="260,50 418,126 418,354 260,430 102,354 102,126"
+               fill="url(#shieldFill)" stroke="none"/>
+      <polygon class="shield-pulse" points="260,50 418,126 418,354 260,430 102,354 102,126"
+               fill="none" stroke="#0e3a5f" stroke-width="1.2"/>
+      <polygon points="260,62 408,134 408,346 260,418 112,346 112,134"
+               fill="none" stroke="#0c3050" stroke-width="0.5" opacity="0.2"/>
+
+      <!-- ===== HEX VERTEX LABELS (v7) ===== -->
+      <circle cx="260" cy="50" r="3.5" fill="#22d3ee" opacity="0.7"/>
+      <line x1="260" y1="53" x2="260" y2="66" stroke="#0891b2" stroke-width="0.8" opacity="0.4"/>
+      <text class="hex-label" x="260" y="39" text-anchor="middle" fill="#22d3ee" font-family="'JetBrains Mono', monospace" font-size="15" font-weight="700" letter-spacing="3" opacity="0.85">SCAN</text>
+      <text x="260" y="22" text-anchor="middle" fill="#e2e8f0" font-family="'JetBrains Mono', monospace" font-size="11" letter-spacing="1" opacity="0.6">codebase</text>
+
+      <circle cx="418" cy="126" r="3.5" fill="#22d3ee" opacity="0.7"/>
+      <line x1="415" y1="126" x2="406" y2="126" stroke="#0891b2" stroke-width="0.8" opacity="0.4"/>
+      <text class="hex-label" x="430" y="121" fill="#22d3ee" font-family="'JetBrains Mono', monospace" font-size="14" font-weight="700" letter-spacing="2" opacity="0.85">DETECT</text>
+      <text x="430" y="137" fill="#e2e8f0" font-family="'JetBrains Mono', monospace" font-size="11" letter-spacing="1" opacity="0.6">duplicates</text>
+
+      <circle cx="418" cy="354" r="3.5" fill="#22d3ee" opacity="0.7"/>
+      <line x1="415" y1="354" x2="406" y2="354" stroke="#0891b2" stroke-width="0.8" opacity="0.4"/>
+      <text class="hex-label" x="430" y="349" fill="#22d3ee" font-family="'JetBrains Mono', monospace" font-size="14" font-weight="700" letter-spacing="2" opacity="0.85">RESOLVE</text>
+      <text x="430" y="365" fill="#e2e8f0" font-family="'JetBrains Mono', monospace" font-size="11" letter-spacing="1" opacity="0.6">canonicals</text>
+
+      <circle cx="260" cy="430" r="3.5" fill="#22d3ee" opacity="0.7"/>
+      <line x1="260" y1="427" x2="260" y2="414" stroke="#0891b2" stroke-width="0.8" opacity="0.4"/>
+      <text class="hex-label" x="260" y="450" text-anchor="middle" fill="#22d3ee" font-family="'JetBrains Mono', monospace" font-size="15" font-weight="700" letter-spacing="3" opacity="0.85">GUARD</text>
+      <text x="260" y="465" text-anchor="middle" fill="#e2e8f0" font-family="'JetBrains Mono', monospace" font-size="11" letter-spacing="1" opacity="0.6">runtime</text>
+
+      <circle cx="102" cy="354" r="3.5" fill="#22d3ee" opacity="0.7"/>
+      <line x1="105" y1="354" x2="114" y2="354" stroke="#0891b2" stroke-width="0.8" opacity="0.4"/>
+      <text class="hex-label" x="90" y="349" text-anchor="end" fill="#22d3ee" font-family="'JetBrains Mono', monospace" font-size="14" font-weight="700" letter-spacing="2" opacity="0.85">INDEX</text>
+      <text x="90" y="365" text-anchor="end" fill="#e2e8f0" font-family="'JetBrains Mono', monospace" font-size="11" letter-spacing="1" opacity="0.6">capabilities</text>
+
+      <circle cx="102" cy="126" r="3.5" fill="#22d3ee" opacity="0.7"/>
+      <line x1="105" y1="126" x2="114" y2="126" stroke="#0891b2" stroke-width="0.8" opacity="0.4"/>
+      <text class="hex-label" x="90" y="121" text-anchor="end" fill="#22d3ee" font-family="'JetBrains Mono', monospace" font-size="14" font-weight="700" letter-spacing="2" opacity="0.85">PREVENT</text>
+      <text x="90" y="137" text-anchor="end" fill="#e2e8f0" font-family="'JetBrains Mono', monospace" font-size="11" letter-spacing="1" opacity="0.6">new duplicates</text>
+
+      <!-- ===== RED DUPLICATE TEXT AROUND HEXAGON (from v3 — prominent) ===== -->
+      <!-- Left side: two duplicate pairs -->
+      <g class="dup-fade" opacity="0.6">
+        <!-- Pair 1: fn() -->
+        <text x="60" y="200" fill="#ef4444" font-family="'JetBrains Mono', monospace" font-size="11" font-weight="700" opacity="0.7">fn()</text>
+        <text x="60" y="216" fill="#ef4444" font-family="'JetBrains Mono', monospace" font-size="11" font-weight="700" opacity="0.7">fn()</text>
+        <!-- Pair 2: api -->
+        <text x="70" y="262" fill="#ef4444" font-family="'JetBrains Mono', monospace" font-size="10" opacity="0.55">api</text>
+        <text x="70" y="276" fill="#ef4444" font-family="'JetBrains Mono', monospace" font-size="10" opacity="0.55">api</text>
+      </g>
+
+      <!-- Right side: two duplicate pairs -->
+      <g class="dup-fade" opacity="0.6" style="animation-delay: 1s;">
+        <!-- Pair 1: { } -->
+        <text x="440" y="200" fill="#ef4444" font-family="'JetBrains Mono', monospace" font-size="11" font-weight="700" opacity="0.7">{ }</text>
+        <text x="440" y="216" fill="#ef4444" font-family="'JetBrains Mono', monospace" font-size="11" font-weight="700" opacity="0.7">{ }</text>
+        <!-- Pair 2: srv -->
+        <text x="432" y="262" fill="#ef4444" font-family="'JetBrains Mono', monospace" font-size="10" opacity="0.55">srv</text>
+        <text x="432" y="276" fill="#ef4444" font-family="'JetBrains Mono', monospace" font-size="10" opacity="0.55">srv</text>
+      </g>
+
+      <!-- ===== DATA FLOW LINES (red duplicates streaming toward eye) ===== -->
+      <line class="data-flow" x1="102" y1="222" x2="168" y2="230" stroke="url(#dupFadeL)" stroke-width="0.8" stroke-dasharray="3 5"/>
+      <line class="data-flow" x1="102" y1="238" x2="168" y2="234" stroke="url(#dupFadeL)" stroke-width="0.8" stroke-dasharray="3 5"/>
+      <line class="data-flow" x1="418" y1="222" x2="352" y2="230" stroke="url(#dupFadeR)" stroke-width="0.8" stroke-dasharray="3 5"/>
+      <line class="data-flow" x1="418" y1="238" x2="352" y2="234" stroke="url(#dupFadeR)" stroke-width="0.8" stroke-dasharray="3 5"/>
+      <!-- Clean cyan lines (already deduplicated, closer to eye) -->
+      <line class="data-flow" x1="125" y1="232" x2="175" y2="236" stroke="url(#dataGradL)" stroke-width="1" stroke-dasharray="4 6" style="animation-delay: 0.3s"/>
+      <line class="data-flow" x1="395" y1="232" x2="345" y2="236" stroke="url(#dataGradR)" stroke-width="1" stroke-dasharray="4 6" style="animation-delay: 0.3s"/>
+
+      <!-- ===== OUTER SCOPE RING ===== -->
+      <circle class="ring-pulse" cx="260" cy="240" r="120" fill="none" stroke="#0e4a6f" stroke-width="0.8"/>
+      <!-- Ring tick marks -->
+      <g opacity="0.35" stroke="#0891b2" stroke-width="0.7">
+        <line x1="260" y1="120" x2="260" y2="130"/>
+        <line x1="260" y1="350" x2="260" y2="360"/>
+        <line x1="140" y1="240" x2="150" y2="240"/>
+        <line x1="370" y1="240" x2="380" y2="240"/>
+        <line x1="175" y1="155" x2="182" y2="162"/>
+        <line x1="345" y1="155" x2="338" y2="162"/>
+        <line x1="175" y1="325" x2="182" y2="318"/>
+        <line x1="345" y1="325" x2="338" y2="318"/>
+      </g>
+
+      <!-- ===== SCAN LINE ===== -->
+      <line class="scan-line" x1="102" y1="240" x2="418" y2="240" stroke="url(#scanGrad)" stroke-width="0.6"/>
+
+      <!-- ===== EYE SHAPE ===== -->
+      <path d="M 110,240 C 110,170 178,122 260,122 C 342,122 410,170 410,240 C 410,310 342,358 260,358 C 178,358 110,310 110,240 Z"
+            fill="url(#eyeFill)"/>
+
+      <!-- Upper eyelid -->
+      <path d="M 100,240 C 120,155 185,108 260,108 C 335,108 400,155 420,240"
+            stroke="#06b6d4" stroke-width="3.5" fill="none" stroke-linecap="round" filter="url(#glow)"/>
+      <!-- Lower eyelid -->
+      <path d="M 100,240 C 120,325 185,372 260,372 C 335,372 400,325 420,240"
+            stroke="#06b6d4" stroke-width="3.5" fill="none" stroke-linecap="round" filter="url(#glow)"/>
+
+      <!-- Secondary lids -->
+      <path d="M 118,240 C 130,175 185,138 260,138 C 335,138 390,175 402,240"
+            stroke="#0e7490" stroke-width="1" fill="none" opacity="0.35"/>
+      <path d="M 118,240 C 130,305 185,342 260,342 C 335,342 390,305 402,240"
+            stroke="#0e7490" stroke-width="1" fill="none" opacity="0.35"/>
+
+      <!-- Third lid -->
+      <path d="M 138,240 C 148,190 195,162 260,162 C 325,162 372,190 382,240"
+            stroke="#0a5870" stroke-width="0.6" fill="none" opacity="0.2"/>
+      <path d="M 138,240 C 148,290 195,318 260,318 C 325,318 372,290 382,240"
+            stroke="#0a5870" stroke-width="0.6" fill="none" opacity="0.2"/>
+
+      <!-- ===== ROTATING IRIS CIRCLES (from v3 — orbiting AROUND the code area) ===== -->
+
+      <!-- Iris glow fill (big ambient glow) -->
+      <circle cx="260" cy="240" r="100" fill="url(#irisGlow)"/>
+
+      <!-- OUTER rotating ring — clockwise 25s — OUTSIDE code clip area, clearly visible -->
+      <g class="iris-rotate-cw">
+        <circle cx="260" cy="240" r="98" fill="none" stroke="#0891b2" stroke-width="1.4"
+                stroke-dasharray="12 3 4 3 2 3" opacity="0.6"/>
+      </g>
+
+      <!-- INNER rotating ring — counter-clockwise 18s — just outside code clip -->
+      <g class="iris-rotate-ccw">
+        <circle cx="260" cy="240" r="86" fill="none" stroke="#06b6d4" stroke-width="1"
+                stroke-dasharray="6 8 2 8" opacity="0.5"/>
+      </g>
+
+      <!-- SOLID static ring — the iris boundary, visible ring around code -->
+      <circle cx="260" cy="240" r="78" fill="none" stroke="#0891b2" stroke-width="1.8" opacity="0.5"/>
+
+      <!-- ===== CIRCUIT CONNECTORS (v3 style — radial lines from outer ring to inner ring) ===== -->
+      <g opacity="0.35" stroke="#0e7490" stroke-width="0.8">
+        <!-- Cardinal directions -->
+        <line x1="260" y1="142" x2="260" y2="168"/>
+        <line x1="260" y1="312" x2="260" y2="338"/>
+        <line x1="162" y1="240" x2="188" y2="240"/>
+        <line x1="332" y1="240" x2="358" y2="240"/>
+        <!-- Diagonal directions -->
+        <line x1="191" y1="171" x2="208" y2="188"/>
+        <line x1="329" y1="171" x2="312" y2="188"/>
+        <line x1="191" y1="309" x2="208" y2="292"/>
+        <line x1="329" y1="309" x2="312" y2="292"/>
+      </g>
+
+      <!-- Circuit nodes (dots at connector endpoints) -->
+      <g fill="#22d3ee" opacity="0.55">
+        <!-- Outer ends -->
+        <circle cx="260" cy="142" r="2.5"/>
+        <circle cx="260" cy="338" r="2.5"/>
+        <circle cx="162" cy="240" r="2.5"/>
+        <circle cx="358" cy="240" r="2.5"/>
+        <circle cx="191" cy="171" r="1.8"/>
+        <circle cx="329" cy="171" r="1.8"/>
+        <circle cx="191" cy="309" r="1.8"/>
+        <circle cx="329" cy="309" r="1.8"/>
+      </g>
+
+      <!-- ===== CODE REFLECTION IN IRIS (v7 scrolling code, clipped inside solid ring) ===== -->
+      <g clip-path="url(#codeClip)" mask="url(#pupilMask)">
+        <ellipse cx="260" cy="240" rx="78" ry="75" fill="#050c16"/>
+        <ellipse cx="260" cy="240" rx="78" ry="75" fill="url(#irisGlow)"/>
+
+        <!-- Line 1 — DUP -->
+        <g class="cl1">
+          <text x="190" y="178" fill="#2dd4bf" font-family="'JetBrains Mono', monospace" font-size="8" font-weight="300" opacity="0.45">export function validate(email) { return schema.parse(email) }</text>
+          <text class="dup-text" x="480" y="178" fill="#ef4444" font-family="'JetBrains Mono', monospace" font-size="11.5" font-weight="700" filter="url(#dupGlow)">&#9888; duplicate!</text>
+          <text x="710" y="178" fill="#2dd4bf" font-family="'JetBrains Mono', monospace" font-size="8" font-weight="300" opacity="0.45">export function validate(email) { return schema.parse(email) }</text>
+          <text class="dup-text" x="1000" y="178" fill="#ef4444" font-family="'JetBrains Mono', monospace" font-size="11.5" font-weight="700" filter="url(#dupGlow)">&#9888; duplicate!</text>
+        </g>
+
+        <!-- Line 2 -->
+        <g class="cl2">
+          <text x="190" y="191" fill="#94a3b8" font-family="'JetBrains Mono', monospace" font-size="7.5" font-weight="300" opacity="0.35">const result = await fetchData(url);  if (!result.ok) throw new Error();</text>
+          <text x="670" y="191" fill="#94a3b8" font-family="'JetBrains Mono', monospace" font-size="7.5" font-weight="300" opacity="0.35">const result = await fetchData(url);  if (!result.ok) throw new Error();</text>
+        </g>
+
+        <!-- Line 3 — DUP -->
+        <g class="cl3">
+          <text x="190" y="204" fill="#64748b" font-family="'JetBrains Mono', monospace" font-size="8" font-weight="300" opacity="0.4">import { fmt } from './utils'  const fmt = (d) => d.toLocaleString()</text>
+          <text class="dup-text" x="490" y="204" fill="#ef4444" font-family="'JetBrains Mono', monospace" font-size="11.5" font-weight="700" filter="url(#dupGlow)" style="animation-delay:0.5s">&#9888; duplicate!</text>
+          <text x="730" y="204" fill="#64748b" font-family="'JetBrains Mono', monospace" font-size="8" font-weight="300" opacity="0.4">import { fmt } from './utils'  const fmt = (d) => d.toLocaleString()</text>
+          <text class="dup-text" x="1030" y="204" fill="#ef4444" font-family="'JetBrains Mono', monospace" font-size="11.5" font-weight="700" filter="url(#dupGlow)" style="animation-delay:0.5s">&#9888; duplicate!</text>
+        </g>
+
+        <!-- Line 4 -->
+        <g class="cl4">
+          <text x="190" y="217" fill="#2dd4bf" font-family="'JetBrains Mono', monospace" font-size="7.5" font-weight="300" opacity="0.4">class UserService { constructor(db) {}  getById(id) { return db.find(id) } }</text>
+          <text x="690" y="217" fill="#2dd4bf" font-family="'JetBrains Mono', monospace" font-size="7.5" font-weight="300" opacity="0.4">class UserService { constructor(db) {}  getById(id) { return db.find(id) } }</text>
+        </g>
+
+        <!-- Line 5 — DUP -->
+        <g class="cl5">
+          <text x="190" y="230" fill="#94a3b8" font-family="'JetBrains Mono', monospace" font-size="8" font-weight="300" opacity="0.4">export const API = "/api/v1"   const apiUrl = "/api/v1"</text>
+          <text class="dup-text" x="460" y="230" fill="#ef4444" font-family="'JetBrains Mono', monospace" font-size="11.5" font-weight="700" filter="url(#dupGlow)" style="animation-delay:0.3s">&#9888; duplicate!</text>
+          <text x="720" y="230" fill="#94a3b8" font-family="'JetBrains Mono', monospace" font-size="8" font-weight="300" opacity="0.4">export const API = "/api/v1"   const apiUrl = "/api/v1"</text>
+          <text class="dup-text" x="990" y="230" fill="#ef4444" font-family="'JetBrains Mono', monospace" font-size="11.5" font-weight="700" filter="url(#dupGlow)" style="animation-delay:0.3s">&#9888; duplicate!</text>
+        </g>
+
+        <!-- Line 6 — DUP -->
+        <g class="cl6">
+          <text x="190" y="243" fill="#64748b" font-family="'JetBrains Mono', monospace" font-size="7.5" font-weight="300" opacity="0.35">type UserId = string;  type UserIdentifier = string;</text>
+          <text class="dup-text" x="440" y="243" fill="#ef4444" font-family="'JetBrains Mono', monospace" font-size="11.5" font-weight="700" filter="url(#dupGlow)" style="animation-delay:0.8s">&#9888; duplicate!</text>
+          <text x="650" y="243" fill="#64748b" font-family="'JetBrains Mono', monospace" font-size="7.5" font-weight="300" opacity="0.35">type UserId = string;  type UserIdentifier = string;</text>
+          <text class="dup-text" x="900" y="243" fill="#ef4444" font-family="'JetBrains Mono', monospace" font-size="11.5" font-weight="700" filter="url(#dupGlow)" style="animation-delay:0.8s">&#9888; duplicate!</text>
+        </g>
+
+        <!-- Line 7 — DUP -->
+        <g class="cl7">
+          <text x="190" y="256" fill="#2dd4bf" font-family="'JetBrains Mono', monospace" font-size="8" font-weight="300" opacity="0.4">function parseConfig(path) { return JSON.parse(fs.readFileSync(path)) }</text>
+          <text class="dup-text" x="510" y="256" fill="#ef4444" font-family="'JetBrains Mono', monospace" font-size="11.5" font-weight="700" filter="url(#dupGlow)" style="animation-delay:1.2s">&#9888; duplicate!</text>
+          <text x="700" y="256" fill="#2dd4bf" font-family="'JetBrains Mono', monospace" font-size="8" font-weight="300" opacity="0.4">function parseConfig(path) { return JSON.parse(fs.readFileSync(path)) }</text>
+          <text class="dup-text" x="1020" y="256" fill="#ef4444" font-family="'JetBrains Mono', monospace" font-size="11.5" font-weight="700" filter="url(#dupGlow)" style="animation-delay:1.2s">&#9888; duplicate!</text>
+        </g>
+
+        <!-- Line 8 -->
+        <g class="cl8">
+          <text x="190" y="269" fill="#94a3b8" font-family="'JetBrains Mono', monospace" font-size="7.5" font-weight="300" opacity="0.35">interface Props { children: ReactNode; variant?: 'primary' | 'secondary'; }</text>
+          <text x="680" y="269" fill="#94a3b8" font-family="'JetBrains Mono', monospace" font-size="7.5" font-weight="300" opacity="0.35">interface Props { children: ReactNode; variant?: 'primary' | 'secondary'; }</text>
+        </g>
+
+        <!-- Line 9 — DUP -->
+        <g class="cl9">
+          <text x="190" y="282" fill="#64748b" font-family="'JetBrains Mono', monospace" font-size="8" font-weight="300" opacity="0.38">export enum Status { Active, Inactive }   enum UserStatus { Active, Inactive }</text>
+          <text class="dup-text" x="520" y="282" fill="#ef4444" font-family="'JetBrains Mono', monospace" font-size="11.5" font-weight="700" filter="url(#dupGlow)" style="animation-delay:0.6s">&#9888; duplicate!</text>
+          <text x="740" y="282" fill="#64748b" font-family="'JetBrains Mono', monospace" font-size="8" font-weight="300" opacity="0.38">export enum Status { Active, Inactive }   enum UserStatus { Active, Inactive }</text>
+          <text class="dup-text" x="1070" y="282" fill="#ef4444" font-family="'JetBrains Mono', monospace" font-size="11.5" font-weight="700" filter="url(#dupGlow)" style="animation-delay:0.6s">&#9888; duplicate!</text>
+        </g>
+
+        <!-- Line 10 -->
+        <g class="cl10">
+          <text x="190" y="295" fill="#2dd4bf" font-family="'JetBrains Mono', monospace" font-size="7.5" font-weight="300" opacity="0.35">const handleSubmit = async (data) => { await api.post('/submit', data); }</text>
+          <text x="660" y="295" fill="#2dd4bf" font-family="'JetBrains Mono', monospace" font-size="7.5" font-weight="300" opacity="0.35">const handleSubmit = async (data) => { await api.post('/submit', data); }</text>
+        </g>
+
+        <!-- Vignette -->
+        <ellipse cx="260" cy="240" rx="80" ry="77" fill="url(#codeVignette)"/>
+      </g>
+
+      <!-- ===== IRIS BORDER (sits on top of code) ===== -->
+      <ellipse cx="260" cy="240" rx="78" ry="75" fill="none" stroke="#0891b2" stroke-width="0.7" opacity="0.45"/>
+      <!-- Inner amber dashed ring -->
+      <ellipse cx="260" cy="240" rx="64" ry="61" fill="none" stroke="#d97706" stroke-width="0.5" opacity="0.2" stroke-dasharray="4 6"/>
+
+      <!-- ===== PUPIL (exact v7) ===== -->
+      <circle class="pupil-glow" cx="260" cy="240" r="28" fill="url(#pupilGrad)" filter="url(#softGlow)"/>
+      <ellipse cx="260" cy="240" rx="21" ry="20" fill="#030810" stroke="#d97706" stroke-width="1.8"/>
+      <ellipse cx="260" cy="240" rx="14" ry="13.5" fill="none" stroke="#92400e" stroke-width="0.4" opacity="0.3"/>
+
+      <!-- Pupil center dot (pulsing focal point) -->
+      <circle class="pupil-dot" cx="260" cy="240" r="2.5" fill="#fbbf24" opacity="0.6"/>
+
+      <!-- Pupil reflections -->
+      <circle cx="268" cy="233" r="3.5" fill="#ffffff" opacity="0.2"/>
+      <circle cx="271" cy="238" r="1.5" fill="#ffffff" opacity="0.1"/>
+
+      <!-- ===== EYE TIP ACCENTS — AMBER (v7) ===== -->
+      <path d="M 57,240 L 80,225 M 57,240 L 80,255" stroke="#fbbf24" stroke-width="2.3" opacity="0.6" stroke-linecap="round"/>
+      <line x1="436" y1="252" x2="443" y2="228" stroke="#fbbf24" stroke-width="1.5" opacity="0.6" stroke-linecap="round"/>
+      <path d="M 463,240 L 448,227 M 463,240 L 448,253" stroke="#fbbf24" stroke-width="2.3" opacity="0.6" stroke-linecap="round"/>
+
+      <!-- ===== GUARD INDICATOR NODES — AMBER (v7) ===== -->
+      <g opacity="0.6">
+        <rect x="112" y="118" width="8" height="8" rx="1.5" fill="none" stroke="#fbbf24" stroke-width="0.9"/>
+        <rect x="114" y="120" width="4" height="4" rx="0.8" fill="#fbbf24" opacity="0.45"/>
+        <rect x="400" y="118" width="8" height="8" rx="1.5" fill="none" stroke="#fbbf24" stroke-width="0.9"/>
+        <rect x="402" y="120" width="4" height="4" rx="0.8" fill="#fbbf24" opacity="0.45"/>
+        <rect x="112" y="354" width="8" height="8" rx="1.5" fill="none" stroke="#fbbf24" stroke-width="0.9"/>
+        <rect x="114" y="356" width="4" height="4" rx="0.8" fill="#fbbf24" opacity="0.45"/>
+        <rect x="400" y="354" width="8" height="8" rx="1.5" fill="none" stroke="#fbbf24" stroke-width="0.9"/>
+        <rect x="402" y="356" width="4" height="4" rx="0.8" fill="#fbbf24" opacity="0.45"/>
+      </g>
+
+      <!-- ===== PARTICLES — mixed cyan + amber ===== -->
+      <circle class="particle" cx="130" cy="185" r="1.8" fill="#06b6d4"/>
+      <circle class="particle" cx="118" cy="282" r="1.2" fill="#fbbf24"/>
+      <circle class="particle" cx="145" cy="155" r="1" fill="#22d3ee" style="animation-delay:0.3s"/>
+      <circle class="particle" cx="390" cy="192" r="1.8" fill="#fbbf24"/>
+      <circle class="particle" cx="402" cy="288" r="1.2" fill="#06b6d4"/>
+      <circle class="particle" cx="375" cy="310" r="1" fill="#d97706" style="animation-delay:0.9s"/>
+      <circle class="particle" cx="160" cy="320" r="0.8" fill="#0891b2" style="animation-delay:1.5s"/>
+    </svg>
+
+    <!-- Logo Text -->
+    <svg width="500" height="58" viewBox="0 0 520 58" xmlns="http://www.w3.org/2000/svg">
+      <text x="260" y="34" text-anchor="middle"
+            font-family="'Outfit', sans-serif" font-size="40" font-weight="800" letter-spacing="1">
+        <tspan fill="#fbbf24">AI</tspan><tspan fill="#e2e8f0">Code</tspan><tspan fill="#06b6d4">Sight</tspan>
+      </text>
+      <text x="260" y="53" text-anchor="middle" fill="#67e8f9"
+            font-family="'JetBrains Mono', monospace" font-size="9.5" letter-spacing="4" opacity="0.6">
+        DETECT &middot; PREVENT &middot; DEDUPLICATE
+      </text>
+    </svg>
+  </div>
+
+  <!-- ========== VARIATIONS ========== -->
+  <div class="variations">
+
+    <!-- Dark -->
+    <div class="variation dark">
+      <svg width="160" height="150" viewBox="0 0 520 480" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <clipPath id="ic2"><ellipse cx="260" cy="240" rx="76" ry="73"/></clipPath>
+          <mask id="pm2"><rect width="520" height="480" fill="white"/><ellipse cx="260" cy="240" rx="21" ry="20" fill="black"/></mask>
+          <radialGradient id="cv2" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#000" stop-opacity="0"/><stop offset="55%" stop-color="#000" stop-opacity="0"/><stop offset="100%" stop-color="#000" stop-opacity="0.9"/></radialGradient>
+          <linearGradient id="sf2" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#06b6d4" stop-opacity="0.4"/><stop offset="60%" stop-color="#0e7490" stop-opacity="0.1"/><stop offset="100%" stop-color="#fbbf24" stop-opacity="0.2"/></linearGradient>
+          <filter id="sb2"><feGaussianBlur in="SourceGraphic" stdDeviation="3"/></filter>
+        </defs>
+        <!-- Shield -->
+        <polygon class="shield-edge-glow" points="260,62 408,134 408,346 260,418 112,346 112,134" fill="none" stroke="#22d3ee" stroke-width="2" filter="url(#sb2)" opacity="0.15"/>
+        <polygon class="shield-breathe" points="260,62 408,134 408,346 260,418 112,346 112,134" fill="url(#sf2)" stroke="none"/>
+        <polygon class="shield-pulse" points="260,62 408,134 408,346 260,418 112,346 112,134" fill="none" stroke="#0e3a5f" stroke-width="1"/>
+        <!-- Labels -->
+        <text x="260" y="53" text-anchor="middle" fill="#22d3ee" font-family="'JetBrains Mono',monospace" font-size="14" font-weight="700" letter-spacing="2" opacity="0.8">SCAN</text>
+        <text x="420" y="128" fill="#22d3ee" font-family="'JetBrains Mono',monospace" font-size="13" font-weight="700" letter-spacing="1.5" opacity="0.8">DETECT</text>
+        <text x="420" y="350" fill="#22d3ee" font-family="'JetBrains Mono',monospace" font-size="13" font-weight="700" letter-spacing="1.5" opacity="0.8">RESOLVE</text>
+        <text x="260" y="434" text-anchor="middle" fill="#22d3ee" font-family="'JetBrains Mono',monospace" font-size="14" font-weight="700" letter-spacing="2" opacity="0.8">GUARD</text>
+        <text x="100" y="350" text-anchor="end" fill="#22d3ee" font-family="'JetBrains Mono',monospace" font-size="13" font-weight="700" letter-spacing="1.5" opacity="0.8">INDEX</text>
+        <text x="100" y="128" text-anchor="end" fill="#22d3ee" font-family="'JetBrains Mono',monospace" font-size="13" font-weight="700" letter-spacing="1.5" opacity="0.8">PREVENT</text>
+        <!-- Red dup labels -->
+        <g class="dup-fade" opacity="0.5"><text x="62" y="210" fill="#ef4444" font-family="monospace" font-size="9">fn()</text><text x="62" y="224" fill="#ef4444" font-family="monospace" font-size="9">fn()</text><text x="70" y="260" fill="#ef4444" font-family="monospace" font-size="8" opacity="0.7">api</text><text x="70" y="272" fill="#ef4444" font-family="monospace" font-size="8" opacity="0.7">api</text></g>
+        <g class="dup-fade" opacity="0.5" style="animation-delay:1s"><text x="435" y="210" fill="#ef4444" font-family="monospace" font-size="9">{ }</text><text x="435" y="224" fill="#ef4444" font-family="monospace" font-size="9">{ }</text><text x="430" y="260" fill="#ef4444" font-family="monospace" font-size="8" opacity="0.7">srv</text><text x="430" y="272" fill="#ef4444" font-family="monospace" font-size="8" opacity="0.7">srv</text></g>
+        <!-- Eye -->
+        <path d="M 100,240 C 120,155 185,108 260,108 C 335,108 400,155 420,240" stroke="#06b6d4" stroke-width="3.5" fill="none"/>
+        <path d="M 100,240 C 120,325 185,372 260,372 C 335,372 400,325 420,240" stroke="#06b6d4" stroke-width="3.5" fill="none"/>
+        <!-- Rotating iris circles -->
+        <g class="iris-rotate-cw"><circle cx="260" cy="240" r="98" fill="none" stroke="#0891b2" stroke-width="1.4" stroke-dasharray="12 3 4 3 2 3" opacity="0.6"/></g>
+        <g class="iris-rotate-ccw"><circle cx="260" cy="240" r="86" fill="none" stroke="#06b6d4" stroke-width="1" stroke-dasharray="6 8 2 8" opacity="0.5"/></g>
+        <circle cx="260" cy="240" r="78" fill="none" stroke="#0891b2" stroke-width="1.5" opacity="0.4"/>
+        <!-- Circuit nodes -->
+        <g fill="#22d3ee" opacity="0.4"><circle cx="260" cy="142" r="2"/><circle cx="260" cy="338" r="2"/><circle cx="162" cy="240" r="2"/><circle cx="358" cy="240" r="2"/></g>
+        <g clip-path="url(#ic2)" mask="url(#pm2)">
+          <ellipse cx="260" cy="240" rx="78" ry="75" fill="#050c16"/>
+          <g class="cl3"><text x="190" y="228" fill="#64748b" font-family="monospace" font-size="8" opacity="0.4">export const API = "/api/v1"  apiUrl = "/api/v1"</text><text class="dup-text" x="490" y="228" fill="#ef4444" font-family="monospace" font-size="11" font-weight="700">&#9888; dup!</text><text x="730" y="228" fill="#64748b" font-family="monospace" font-size="8" opacity="0.4">export const API = "/api/v1"  apiUrl = "/api/v1"</text></g>
+          <g class="cl5"><text x="190" y="243" fill="#2dd4bf" font-family="monospace" font-size="7.5" opacity="0.35">function format(d: Date) { return d.toISOString() }</text><text x="720" y="243" fill="#2dd4bf" font-family="monospace" font-size="7.5" opacity="0.35">function format(d: Date) { return d.toISOString() }</text></g>
+          <g class="cl7"><text x="190" y="258" fill="#94a3b8" font-family="monospace" font-size="8" opacity="0.38">type UserId = string;  type Id = string;</text><text class="dup-text" x="480" y="258" fill="#ef4444" font-family="monospace" font-size="11" font-weight="700" style="animation-delay:1s">&#9888; dup!</text><text x="700" y="258" fill="#94a3b8" font-family="monospace" font-size="8" opacity="0.38">type UserId = string;  type Id = string;</text></g>
+          <ellipse cx="260" cy="240" rx="80" ry="77" fill="url(#cv2)"/>
+        </g>
+        <!-- Pupil + amber chevrons -->
+        <path d="M 66,240 L 84,228 M 66,240 L 84,252" stroke="#fbbf24" stroke-width="1.8" opacity="0.55" stroke-linecap="round"/>
+        <line x1="432" y1="250" x2="438" y2="230" stroke="#fbbf24" stroke-width="1.0" opacity="0.55" stroke-linecap="round"/>
+        <path d="M 456,240 L 444,229 M 456,240 L 444,251" stroke="#fbbf24" stroke-width="1.8" opacity="0.55" stroke-linecap="round"/>
+        <ellipse cx="260" cy="240" rx="21" ry="20" fill="#030810" stroke="#d97706" stroke-width="1.8"/>
+        <circle cx="260" cy="240" r="2.5" fill="#fbbf24" opacity="0.5"/>
+        <rect x="114" y="128" width="5" height="5" rx="1" fill="#fbbf24" opacity="0.4"/>
+        <rect x="402" y="128" width="5" height="5" rx="1" fill="#fbbf24" opacity="0.4"/>
+        <rect x="114" y="348" width="5" height="5" rx="1" fill="#fbbf24" opacity="0.4"/>
+        <rect x="402" y="348" width="5" height="5" rx="1" fill="#fbbf24" opacity="0.4"/>
+      </svg>
+      <label>Dark</label>
+    </div>
+
+    <!-- Light -->
+    <div class="variation light">
+      <svg width="160" height="150" viewBox="0 0 520 480" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <clipPath id="ic3"><ellipse cx="260" cy="240" rx="76" ry="73"/></clipPath>
+          <mask id="pm3"><rect width="520" height="480" fill="white"/><ellipse cx="260" cy="240" rx="21" ry="20" fill="black"/></mask>
+          <radialGradient id="cv3" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#f0f4f8" stop-opacity="0"/><stop offset="55%" stop-color="#f0f4f8" stop-opacity="0"/><stop offset="100%" stop-color="#f0f4f8" stop-opacity="0.92"/></radialGradient>
+          <linearGradient id="sf3" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#0e7490" stop-opacity="0.08"/><stop offset="100%" stop-color="#b45309" stop-opacity="0.06"/></linearGradient>
+        </defs>
+        <polygon class="shield-breathe" points="260,62 408,134 408,346 260,418 112,346 112,134" fill="url(#sf3)" stroke="none"/>
+        <polygon class="shield-pulse" points="260,62 408,134 408,346 260,418 112,346 112,134" fill="none" stroke="#94a3b8" stroke-width="1" opacity="0.3"/>
+        <text x="260" y="53" text-anchor="middle" fill="#0e7490" font-family="'JetBrains Mono',monospace" font-size="14" font-weight="700" letter-spacing="2" opacity="0.75">SCAN</text>
+        <text x="420" y="128" fill="#0e7490" font-family="'JetBrains Mono',monospace" font-size="13" font-weight="700" letter-spacing="1.5" opacity="0.75">DETECT</text>
+        <text x="420" y="350" fill="#0e7490" font-family="'JetBrains Mono',monospace" font-size="13" font-weight="700" letter-spacing="1.5" opacity="0.75">RESOLVE</text>
+        <text x="260" y="434" text-anchor="middle" fill="#0e7490" font-family="'JetBrains Mono',monospace" font-size="14" font-weight="700" letter-spacing="2" opacity="0.75">GUARD</text>
+        <text x="100" y="350" text-anchor="end" fill="#0e7490" font-family="'JetBrains Mono',monospace" font-size="13" font-weight="700" letter-spacing="1.5" opacity="0.75">INDEX</text>
+        <text x="100" y="128" text-anchor="end" fill="#0e7490" font-family="'JetBrains Mono',monospace" font-size="13" font-weight="700" letter-spacing="1.5" opacity="0.75">PREVENT</text>
+        <g class="dup-fade" opacity="0.5"><text x="62" y="210" fill="#dc2626" font-family="monospace" font-size="9">fn()</text><text x="62" y="224" fill="#dc2626" font-family="monospace" font-size="9">fn()</text><text x="70" y="260" fill="#dc2626" font-family="monospace" font-size="8" opacity="0.7">api</text><text x="70" y="272" fill="#dc2626" font-family="monospace" font-size="8" opacity="0.7">api</text></g>
+        <g class="dup-fade" opacity="0.5" style="animation-delay:1s"><text x="435" y="210" fill="#dc2626" font-family="monospace" font-size="9">{ }</text><text x="435" y="224" fill="#dc2626" font-family="monospace" font-size="9">{ }</text><text x="430" y="260" fill="#dc2626" font-family="monospace" font-size="8" opacity="0.7">srv</text><text x="430" y="272" fill="#dc2626" font-family="monospace" font-size="8" opacity="0.7">srv</text></g>
+        <path d="M 100,240 C 120,155 185,108 260,108 C 335,108 400,155 420,240" stroke="#0e7490" stroke-width="3.5" fill="none"/>
+        <path d="M 100,240 C 120,325 185,372 260,372 C 335,372 400,325 420,240" stroke="#0e7490" stroke-width="3.5" fill="none"/>
+        <g class="iris-rotate-cw"><circle cx="260" cy="240" r="98" fill="none" stroke="#0e7490" stroke-width="1.4" stroke-dasharray="12 3 4 3 2 3" opacity="0.45"/></g>
+        <g class="iris-rotate-ccw"><circle cx="260" cy="240" r="86" fill="none" stroke="#0891b2" stroke-width="1" stroke-dasharray="6 8 2 8" opacity="0.35"/></g>
+        <circle cx="260" cy="240" r="78" fill="none" stroke="#0e7490" stroke-width="1.5" opacity="0.35"/>
+        <g fill="#0e7490" opacity="0.35"><circle cx="260" cy="142" r="2"/><circle cx="260" cy="338" r="2"/><circle cx="162" cy="240" r="2"/><circle cx="358" cy="240" r="2"/></g>
+        <g clip-path="url(#ic3)" mask="url(#pm3)">
+          <ellipse cx="260" cy="240" rx="78" ry="75" fill="#1e293b"/>
+          <g class="cl3"><text x="190" y="228" fill="#94a3b8" font-family="monospace" font-size="8" opacity="0.5">export const API = "/api/v1"  apiUrl = "/api/v1"</text><text class="dup-text" x="490" y="228" fill="#ef4444" font-family="monospace" font-size="11" font-weight="700">&#9888; dup!</text><text x="730" y="228" fill="#94a3b8" font-family="monospace" font-size="8" opacity="0.5">export const API = "/api/v1"  apiUrl = "/api/v1"</text></g>
+          <g class="cl5"><text x="190" y="243" fill="#67e8f9" font-family="monospace" font-size="7.5" opacity="0.45">function format(d: Date) { return d.toISOString() }</text><text x="720" y="243" fill="#67e8f9" font-family="monospace" font-size="7.5" opacity="0.45">function format(d: Date) { return d.toISOString() }</text></g>
+          <g class="cl7"><text x="190" y="258" fill="#94a3b8" font-family="monospace" font-size="8" opacity="0.4">type UserId = string;  type Id = string;</text><text class="dup-text" x="480" y="258" fill="#ef4444" font-family="monospace" font-size="11" font-weight="700" style="animation-delay:1s">&#9888; dup!</text><text x="700" y="258" fill="#94a3b8" font-family="monospace" font-size="8" opacity="0.4">type UserId = string;  type Id = string;</text></g>
+          <ellipse cx="260" cy="240" rx="80" ry="77" fill="url(#cv3)"/>
+        </g>
+        <path d="M 66,240 L 84,228 M 66,240 L 84,252" stroke="#b45309" stroke-width="1.8" opacity="0.55" stroke-linecap="round"/>
+        <line x1="432" y1="250" x2="438" y2="230" stroke="#b45309" stroke-width="1.0" opacity="0.55" stroke-linecap="round"/>
+        <path d="M 456,240 L 444,229 M 456,240 L 444,251" stroke="#b45309" stroke-width="1.8" opacity="0.55" stroke-linecap="round"/>
+        <ellipse cx="260" cy="240" rx="21" ry="20" fill="#f0f4f8" stroke="#b45309" stroke-width="1.8"/>
+        <circle cx="260" cy="240" r="2.5" fill="#b45309" opacity="0.5"/>
+        <rect x="114" y="128" width="5" height="5" rx="1" fill="#b45309" opacity="0.35"/>
+        <rect x="402" y="128" width="5" height="5" rx="1" fill="#b45309" opacity="0.35"/>
+        <rect x="114" y="348" width="5" height="5" rx="1" fill="#b45309" opacity="0.35"/>
+        <rect x="402" y="348" width="5" height="5" rx="1" fill="#b45309" opacity="0.35"/>
+      </svg>
+      <label>Light</label>
+    </div>
+
+    <!-- Midnight -->
+    <div class="variation midnight">
+      <svg width="160" height="150" viewBox="0 0 520 480" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <clipPath id="ic4"><ellipse cx="260" cy="240" rx="76" ry="73"/></clipPath>
+          <mask id="pm4"><rect width="520" height="480" fill="white"/><ellipse cx="260" cy="240" rx="21" ry="20" fill="black"/></mask>
+          <radialGradient id="cv4" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#000" stop-opacity="0"/><stop offset="55%" stop-color="#000" stop-opacity="0"/><stop offset="100%" stop-color="#000" stop-opacity="0.95"/></radialGradient>
+          <linearGradient id="sf4" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#22d3ee" stop-opacity="0.3"/><stop offset="60%" stop-color="#0e7490" stop-opacity="0.08"/><stop offset="100%" stop-color="#fbbf24" stop-opacity="0.15"/></linearGradient>
+          <linearGradient id="se4" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#22d3ee"/><stop offset="50%" stop-color="#fbbf24"/><stop offset="100%" stop-color="#22d3ee"/></linearGradient>
+          <filter id="sb4"><feGaussianBlur in="SourceGraphic" stdDeviation="3"/></filter>
+        </defs>
+        <polygon class="shield-edge-glow" points="260,62 408,134 408,346 260,418 112,346 112,134" fill="none" stroke="url(#se4)" stroke-width="2" filter="url(#sb4)" opacity="0.12"/>
+        <polygon class="shield-breathe" points="260,62 408,134 408,346 260,418 112,346 112,134" fill="url(#sf4)" stroke="none"/>
+        <polygon class="shield-pulse" points="260,62 408,134 408,346 260,418 112,346 112,134" fill="none" stroke="#1e3a5f" stroke-width="1"/>
+        <text x="260" y="53" text-anchor="middle" fill="#22d3ee" font-family="'JetBrains Mono',monospace" font-size="14" font-weight="700" letter-spacing="2" opacity="0.8">SCAN</text>
+        <text x="420" y="128" fill="#22d3ee" font-family="'JetBrains Mono',monospace" font-size="13" font-weight="700" letter-spacing="1.5" opacity="0.8">DETECT</text>
+        <text x="420" y="350" fill="#22d3ee" font-family="'JetBrains Mono',monospace" font-size="13" font-weight="700" letter-spacing="1.5" opacity="0.8">RESOLVE</text>
+        <text x="260" y="434" text-anchor="middle" fill="#22d3ee" font-family="'JetBrains Mono',monospace" font-size="14" font-weight="700" letter-spacing="2" opacity="0.8">GUARD</text>
+        <text x="100" y="350" text-anchor="end" fill="#22d3ee" font-family="'JetBrains Mono',monospace" font-size="13" font-weight="700" letter-spacing="1.5" opacity="0.8">INDEX</text>
+        <text x="100" y="128" text-anchor="end" fill="#22d3ee" font-family="'JetBrains Mono',monospace" font-size="13" font-weight="700" letter-spacing="1.5" opacity="0.8">PREVENT</text>
+        <g class="dup-fade" opacity="0.5"><text x="62" y="210" fill="#ef4444" font-family="monospace" font-size="9">fn()</text><text x="62" y="224" fill="#ef4444" font-family="monospace" font-size="9">fn()</text><text x="70" y="260" fill="#ef4444" font-family="monospace" font-size="8" opacity="0.7">api</text><text x="70" y="272" fill="#ef4444" font-family="monospace" font-size="8" opacity="0.7">api</text></g>
+        <g class="dup-fade" opacity="0.5" style="animation-delay:1s"><text x="435" y="210" fill="#ef4444" font-family="monospace" font-size="9">{ }</text><text x="435" y="224" fill="#ef4444" font-family="monospace" font-size="9">{ }</text><text x="430" y="260" fill="#ef4444" font-family="monospace" font-size="8" opacity="0.7">srv</text><text x="430" y="272" fill="#ef4444" font-family="monospace" font-size="8" opacity="0.7">srv</text></g>
+        <path d="M 100,240 C 120,155 185,108 260,108 C 335,108 400,155 420,240" stroke="#22d3ee" stroke-width="3.5" fill="none"/>
+        <path d="M 100,240 C 120,325 185,372 260,372 C 335,372 400,325 420,240" stroke="#22d3ee" stroke-width="3.5" fill="none"/>
+        <g class="iris-rotate-cw"><circle cx="260" cy="240" r="98" fill="none" stroke="#06b6d4" stroke-width="1.4" stroke-dasharray="12 3 4 3 2 3" opacity="0.55"/></g>
+        <g class="iris-rotate-ccw"><circle cx="260" cy="240" r="86" fill="none" stroke="#22d3ee" stroke-width="1" stroke-dasharray="6 8 2 8" opacity="0.45"/></g>
+        <circle cx="260" cy="240" r="78" fill="none" stroke="#06b6d4" stroke-width="1.5" opacity="0.4"/>
+        <g fill="#22d3ee" opacity="0.4"><circle cx="260" cy="142" r="2"/><circle cx="260" cy="338" r="2"/><circle cx="162" cy="240" r="2"/><circle cx="358" cy="240" r="2"/></g>
+        <g clip-path="url(#ic4)" mask="url(#pm4)">
+          <ellipse cx="260" cy="240" rx="78" ry="75" fill="#020408"/>
+          <g class="cl3"><text x="190" y="228" fill="#475569" font-family="monospace" font-size="8" opacity="0.4">export const API = "/api/v1"  apiUrl = "/api/v1"</text><text class="dup-text" x="490" y="228" fill="#ef4444" font-family="monospace" font-size="11" font-weight="700">&#9888; dup!</text><text x="730" y="228" fill="#475569" font-family="monospace" font-size="8" opacity="0.4">export const API = "/api/v1"  apiUrl = "/api/v1"</text></g>
+          <g class="cl5"><text x="190" y="243" fill="#2dd4bf" font-family="monospace" font-size="7.5" opacity="0.35">function format(d: Date) { return d.toISOString() }</text><text x="720" y="243" fill="#2dd4bf" font-family="monospace" font-size="7.5" opacity="0.35">function format(d: Date) { return d.toISOString() }</text></g>
+          <g class="cl7"><text x="190" y="258" fill="#64748b" font-family="monospace" font-size="8" opacity="0.35">type UserId = string;  type Id = string;</text><text class="dup-text" x="480" y="258" fill="#ef4444" font-family="monospace" font-size="11" font-weight="700" style="animation-delay:1s">&#9888; dup!</text><text x="700" y="258" fill="#64748b" font-family="monospace" font-size="8" opacity="0.35">type UserId = string;  type Id = string;</text></g>
+          <ellipse cx="260" cy="240" rx="80" ry="77" fill="url(#cv4)"/>
+        </g>
+        <path d="M 66,240 L 84,228 M 66,240 L 84,252" stroke="#fbbf24" stroke-width="1.8" opacity="0.55" stroke-linecap="round"/>
+        <line x1="432" y1="250" x2="438" y2="230" stroke="#fbbf24" stroke-width="1.0" opacity="0.55" stroke-linecap="round"/>
+        <path d="M 456,240 L 444,229 M 456,240 L 444,251" stroke="#fbbf24" stroke-width="1.8" opacity="0.55" stroke-linecap="round"/>
+        <ellipse cx="260" cy="240" rx="21" ry="20" fill="#000" stroke="#f59e0b" stroke-width="1.8"/>
+        <circle cx="260" cy="240" r="2.5" fill="#fbbf24" opacity="0.5"/>
+        <rect x="114" y="128" width="5" height="5" rx="1" fill="#fbbf24" opacity="0.4"/>
+        <rect x="402" y="128" width="5" height="5" rx="1" fill="#fbbf24" opacity="0.4"/>
+        <rect x="114" y="348" width="5" height="5" rx="1" fill="#fbbf24" opacity="0.4"/>
+        <rect x="402" y="348" width="5" height="5" rx="1" fill="#fbbf24" opacity="0.4"/>
+      </svg>
+      <label>Midnight</label>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

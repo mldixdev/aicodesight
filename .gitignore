@@ -1,0 +1,35 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+
+# AICodeSight generated data (local per-project)
+.claude/
+CLAUDE.md
+.claudeignore
+
+# Prototypes (internal experiments)
+prototypes/
+
+# Logo intermediate versions (keep only final)
+logo/aicodesight-logo.html
+logo/aicodesight-logo-v2.html
+logo/aicodesight-logo-v3.html
+logo/aicodesight-logo-v4.html
+logo/aicodesight-logo-v5.html
+logo/aicodesight-logo-v6.html
+logo/aicodesight-logo-v7.html
+logo/aicodesight-logo-v8.html
+logo/aicodesight-logo-v9.html
+logo/aicodesight-logo-v10 - copia.html
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
