@@ -3,6 +3,7 @@
 </p>
 
 <h3 align="center">Stop your AI from reinventing what already exists.</h3>
+<p align="center"><strong>Built for <a href="https://docs.anthropic.com/en/docs/claude-code">Claude Code</a></strong></p>
 
 <p align="center">
   <a href="https://www.npmjs.com/package/aicodesight"><img src="https://img.shields.io/npm/v/aicodesight?color=0891b2&label=npm" alt="npm version" /></a>
@@ -166,7 +167,7 @@ CLAUDE.md                   # AI directives (project root)
 
 - **Node.js** >= 18
 - Works with **TypeScript**, **JavaScript**, and **C#** projects
-- Designed for [Claude Code](https://docs.anthropic.com/en/docs/claude-code) (compatible with other AI assistants that support project-level directives)
+- **Built for [Claude Code](https://docs.anthropic.com/en/docs/claude-code)** — generates CLAUDE.md, hooks, and guards designed for the Claude Code ecosystem
 
 ## Contributing
 
