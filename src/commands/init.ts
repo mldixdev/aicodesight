@@ -266,23 +266,40 @@ Read \`.claude/capability-index.json\`. For each entry with \`"source": "extract
      - Keep dependencies on project functions/modules that ARE actually used
 4. Change \`source\` from \`"extracted"\` to \`"enriched"\`
 
-## File Format — CRITICAL
+## File Format — CRITICAL (Guard-Enforced)
 
-The file uses compact format: **one entry per line**. This allows Claude to read
+The file uses **compact serialization**: header fields on separate lines, then each
+entry on exactly ONE line inside the \`"entries"\` array. This allows Claude to read
 the entire file in a single pass (the Read tool has a 2000-line limit).
 
-**When writing back, PRESERVE the compact format.** Use the Edit tool to replace
-individual lines instead of rewriting the entire file. Each entry must remain
-on a single JSON line, not pretty-printed.
+**A format validation guard will BLOCK writes that violate this format.**
 
-Example line in the file:
-\`\`\`
-    {"name":"createUser","type":"function","file":"src/controllers/users.ts","line":42,"signature":"(req: Request) => Promise<void>","signatureShape":"async-fetch","effects":["database"],"description":"Creates new user validating unique email","domain":"auth","action":"create","entity":"user","dependsOn":["validateEmail","hashPassword"],"source":"enriched"}
-\`\`\`
+### What gets BLOCKED:
+1. **Compressed format** — entire file on 1-3 lines (e.g., \`JSON.stringify(data)\`
+   or Python \`json.dump(data, f, separators=(',',':'))\`) → **BLOCKED**
+2. **Pretty-printed format** — each entry split across multiple lines (e.g.,
+   \`JSON.stringify(data, null, 2)\` or Python \`json.dump(data, f, indent=2)\`) → **BLOCKED**
+3. **Invalid JSON** — syntax errors, missing commas → **BLOCKED**
 
-**NEVER** rewrite the entire file with JSON.stringify pretty-printed.
-If you need to rewrite the whole file, keep the header (version, generatedAt, source)
-on separate lines and each entry in the array on a single line.
+### Correct approach:
+- Use the **Edit tool** to replace individual entry lines in-place
+- NEVER use \`JSON.stringify()\` or \`json.dump()\` on the whole file
+- NEVER write a script to process the file — edit lines directly
+- If you must rewrite the whole file, keep header on separate lines and each
+  entry in the array on a single line (no line breaks within an entry)
+
+### Example of correct format:
+\`\`\`json
+{
+  "version": "2.0",
+  "generatedAt": "2026-01-15T10:00:00Z",
+  "source": "hybrid",
+  "entries": [
+    {"name":"createUser","type":"function","file":"src/users.ts","line":42,...,"source":"enriched"},
+    {"name":"deleteUser","type":"function","file":"src/users.ts","line":78,...,"source":"enriched"}
+  ]
+}
+\`\`\`
 
 ## Workflow
 

@@ -43,6 +43,13 @@ async function run(context) {
   if (!filePath) process.exit(0);
 
   const ext = path.extname(filePath).toLowerCase();
+
+  // JSON format validation for AICodeSight config files (before source-code filter)
+  if (ext === '.json') {
+    try { validateCompactJsonFormat(toolName, toolInput, filePath); } catch {}
+    process.exit(0); // JSON files never go through source code guards
+  }
+
   if (!['.ts', '.tsx', '.js', '.jsx', '.cs'].includes(ext)) process.exit(0);
 
   const projectRoot = findProjectRoot(filePath);
@@ -73,6 +80,8 @@ async function run(context) {
 
   // Extract exports from the PROPOSED content (not current)
   const fileExports = extractExports(proposedContent, ext);
+  // For Edit operations, also extract current exports to detect what's NEW vs pre-existing
+  const currentExports = (toolName === 'edit' && content) ? extractExports(content, ext) : null;
   const claudeDir = path.join(projectRoot, '.claude');
   const inventory = loadJSON(path.join(claudeDir, 'inventory.json'));
   const config = loadJSON(path.join(claudeDir, 'hooks', 'guard-config.json')) || defaultConfig();
@@ -86,7 +95,7 @@ async function run(context) {
 
   const guardContext = {
     toolName, filePath, relativePath, content: proposedContent, fileExports,
-    inventory, config, memory, projectRoot, claudeDir, ext,
+    currentExports, inventory, config, memory, projectRoot, claudeDir, ext,
   };
 
   // Discover and run guards
@@ -346,6 +355,96 @@ function loadJSON(filePath) {
   catch { return null; }
 }
 
+/**
+ * Validates compact JSON format for AICodeSight config files.
+ * Blocks writes that compress (1 line) or pretty-print (thousands of lines)
+ * capability-index.json, which must use one-entry-per-line serialization.
+ */
+function validateCompactJsonFormat(toolName, toolInput, filePath) {
+  const baseName = path.basename(filePath);
+  if (baseName !== 'capability-index.json') return;
+
+  // Only validate files inside .claude/ directory
+  const dir = path.dirname(filePath).replace(/\\\\\\\\/g, '/');
+  if (!dir.includes('.claude')) return;
+
+  // Load guard config to check severity
+  const projectRoot = findProjectRoot(filePath);
+  if (!projectRoot) return;
+  const claudeDir = path.join(projectRoot, '.claude');
+  const config = loadJSON(path.join(claudeDir, 'hooks', 'guard-config.json')) || defaultConfig();
+  const guardConf = config.guards['json-format'] || { severity: 'block' };
+  if (guardConf.severity === 'off') return;
+
+  // Compute proposed content (same logic as main runner, self-contained for isolation)
+  let proposed;
+  if (toolName === 'write') {
+    proposed = toolInput.content || '';
+  } else if (toolName === 'edit') {
+    let current = '';
+    try { current = fs.readFileSync(filePath, 'utf-8'); } catch {}
+    const oldStr = toolInput.old_string;
+    const newStr = toolInput.new_string;
+    if (oldStr != null && newStr != null && current.includes(oldStr)) {
+      proposed = toolInput.replace_all
+        ? current.split(oldStr).join(newStr)
+        : current.replace(oldStr, newStr);
+    } else {
+      proposed = current;
+    }
+  }
+
+  if (!proposed || proposed.length < 10) return;
+
+  // Parse JSON
+  let data;
+  try { data = JSON.parse(proposed); } catch (e) {
+    const isBlock = guardConf.severity === 'block';
+    const prefix = isBlock ? '[BLOCKED]' : '[GUARD PIPELINE]';
+    process.stderr.write('\\n  ' + prefix + ' AICodeSight json-format — ' + baseName + '\\n');
+    process.stderr.write('  ✖ [json-format] Invalid JSON: ' + e.message + '\\n');
+    process.stderr.write('    → Fix the JSON syntax error before writing\\n\\n');
+    if (isBlock) process.exit(2);
+    return;
+  }
+
+  // Only validate files with enough entries to check ratios
+  if (!Array.isArray(data.entries) || data.entries.length < 5) return;
+
+  const lines = proposed.split('\\n');
+  const lineCount = lines.length;
+  const entryCount = data.entries.length;
+  const expectedLines = entryCount + 6; // header (4) + array markers (2)
+
+  // Check 1: Compressed format (everything on 1-3 lines)
+  if (lineCount < entryCount * 0.5) {
+    const isBlock = guardConf.severity === 'block';
+    const prefix = isBlock ? '[BLOCKED]' : '[GUARD PIPELINE]';
+    const icon = isBlock ? '✖' : '⚠';
+    process.stderr.write('\\n  ' + prefix + ' AICodeSight json-format — ' + baseName + '\\n');
+    process.stderr.write('  ' + icon + ' [json-format] File appears COMPRESSED (' + lineCount + ' lines for ' + entryCount + ' entries)\\n');
+    process.stderr.write('    → Required: compact format with one entry per line (~' + expectedLines + ' lines expected)\\n');
+    process.stderr.write('    → Use the Edit tool to modify individual entries, not Write to rewrite the entire file\\n');
+    process.stderr.write('    → Do NOT use JSON.stringify() or json.dump() — they destroy the compact format\\n\\n');
+    if (isBlock) process.exit(2);
+    return;
+  }
+
+  // Check 2: Pretty-printed format (each entry expands to ~8+ lines)
+  if (lineCount > entryCount * 5) {
+    const isBlock = guardConf.severity === 'block';
+    const prefix = isBlock ? '[BLOCKED]' : '[GUARD PIPELINE]';
+    const icon = isBlock ? '✖' : '⚠';
+    process.stderr.write('\\n  ' + prefix + ' AICodeSight json-format — ' + baseName + '\\n');
+    process.stderr.write('  ' + icon + ' [json-format] File appears PRETTY-PRINTED (' + lineCount + ' lines for ' + entryCount + ' entries)\\n');
+    process.stderr.write('    → Required: compact format with one entry per line (~' + expectedLines + ' lines expected)\\n');
+    process.stderr.write('    → Do NOT use JSON.stringify(data, null, 2) — keep each entry on a single line\\n');
+    process.stderr.write('    → Run "aicodesight update" to regenerate with correct format\\n\\n');
+    if (isBlock) process.exit(2);
+    return;
+  }
+}
+
 function defaultConfig() {
   return {
     mode: '${mode}',
@@ -357,6 +456,7 @@ function defaultConfig() {
       dependency: { severity: 'off' },
       'structural-duplication': { severity: 'warn' },
       'semantic-duplication': { severity: 'off', similarityThreshold: 0.66, blockThreshold: 0.85 },
+      'json-format': { severity: 'block' },
     },
     whitelist: [],
   };

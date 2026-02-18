@@ -51,6 +51,9 @@ export function generateGuardConfig(mode: HooksMode, language: ProjectLanguage =
         similarityThreshold: 0.66,
         blockThreshold: 0.85,
       },
+      'json-format': {
+        severity: 'block' as const,
+      },
     },
     whitelist: [],
     zones: {},

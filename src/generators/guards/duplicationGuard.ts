@@ -17,6 +17,13 @@ module.exports = {
     const fuzzyThreshold = config.fuzzyThreshold || 0.6;
     const whitelist = new Set(ctx.config.whitelist || []);
 
+    // For Edit operations: determine which exports are NEW (not pre-existing)
+    // Pre-existing duplicates should not block unrelated edits
+    const currentExportNames = new Set();
+    if (ctx.currentExports) {
+      for (const exp of ctx.currentExports) currentExportNames.add(exp.name);
+    }
+
     // Build registry: exportName → [{ file, line, type }]
     // Skip barrel files (index.ts/index.js) — they re-export, not duplicate
     const BARREL_NAMES = new Set(['index']);
@@ -47,6 +54,9 @@ module.exports = {
     for (const exp of ctx.fileExports) {
       if (exp.name === 'default' || whitelist.has(exp.name)) continue;
 
+      // For Edit: skip exports that already existed before this edit (pre-existing duplication)
+      const isPreExisting = currentExportNames.size > 0 && currentExportNames.has(exp.name);
+
       // 1. Exact match
       if (registry.has(exp.name)) {
         const locations = registry.get(exp.name);
@@ -59,6 +69,11 @@ module.exports = {
           const sigsDiffer = expSig && matchSig && expSig !== matchSig;
 
           if (!sigsDiffer) {
+            // Pre-existing duplicate: downgrade to info instead of blocking
+            if (isPreExisting) {
+              continue; // Don't block edits unrelated to this duplication
+            }
+
             const first = sameStackLocs[0];
             const importPath = computeImportPath(ctx.relativePath, first.file);
             const otherFiles = sameStackLocs.map(l => l.file + ':' + l.line).join(', ');
@@ -85,6 +100,9 @@ module.exports = {
       }
 
       if (fuzzyMatches.length > 0) {
+        // Skip fuzzy warnings for pre-existing exports
+        if (isPreExisting) continue;
+
         fuzzyMatches.sort((a, b) => b.similarity - a.similarity);
         const best = fuzzyMatches[0];
         const pct = Math.round(best.similarity * 100);
