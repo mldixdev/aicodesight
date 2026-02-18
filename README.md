@@ -2,7 +2,7 @@
   <img src="logo/aicodesight-logo-v10-static.png" alt="AICodeSight" width="360" />
 </p>
 
-<h3 align="center">Stop your AI from reinventing what already exists.</h3>
+<h3 align="center">AI code duplication stops here.</h3>
 <p align="center"><strong>Built for <a href="https://docs.anthropic.com/en/docs/claude-code">Claude Code</a></strong></p>
 
 <p align="center">
