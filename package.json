@@ -1,6 +1,6 @@
 {
   "name": "aicodesight",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "CLI that diagnoses projects and generates AI-friendly architectural metadata to prevent code duplication",
   "bin": {
     "aicodesight": "bin/aicodesight.js"
