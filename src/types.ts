@@ -478,7 +478,7 @@ export interface DomainContext {
 export type LibraryCategory =
   | 'routing' | 'state' | 'data-fetching' | 'ui-components' | 'styling'
   | 'forms' | 'validation' | 'orm' | 'auth' | 'testing' | 'charts'
-  | 'export' | 'logging' | 'mapping' | 'other';
+  | 'export' | 'logging' | 'mapping' | 'mobile-framework' | 'baas' | 'other';
 
 export interface StackLibrary {
   name: string;
