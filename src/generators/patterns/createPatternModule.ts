@@ -4,18 +4,26 @@ import {
   DesignTokenHint, AntiDuplicationEntry, AntiPatternEntry, DomainGrouping,
 } from '../../types';
 
+type ArrayOrFn<T> = T[] | ((stack: TechStackProfile) => T[]);
+
+function normalize<T>(input: ArrayOrFn<T> | undefined, fallback: T[] = []): (stack: TechStackProfile) => T[] {
+  if (!input) return () => fallback;
+  if (typeof input === 'function') return input;
+  return () => input;
+}
+
 export interface PatternModuleConfig {
   id: string;
   name: string;
   activationCheck: (stack: TechStackProfile) => boolean;
-  folderSuggestions: FolderNode[];
-  codePatterns: CodePattern[];
-  dataFlows?: DataFlow[];
-  sharedUtilities?: SharedUtility[];
-  designTokens?: DesignTokenHint[];
-  antiDuplicationEntries?: AntiDuplicationEntry[];
-  antiPatterns?: AntiPatternEntry[];
-  domainGroupings?: DomainGrouping[];
+  folderSuggestions: ArrayOrFn<FolderNode>;
+  codePatterns: ArrayOrFn<CodePattern>;
+  dataFlows?: ArrayOrFn<DataFlow>;
+  sharedUtilities?: ArrayOrFn<SharedUtility>;
+  designTokens?: ArrayOrFn<DesignTokenHint>;
+  antiDuplicationEntries?: ArrayOrFn<AntiDuplicationEntry>;
+  antiPatterns?: ArrayOrFn<AntiPatternEntry>;
+  domainGroupings?: ArrayOrFn<DomainGrouping>;
 }
 
 export function createPatternModule(config: PatternModuleConfig): PatternModule {
@@ -23,13 +31,13 @@ export function createPatternModule(config: PatternModuleConfig): PatternModule 
     id: config.id,
     name: config.name,
     activationCheck: config.activationCheck,
-    folderSuggestions: () => config.folderSuggestions,
-    codePatterns: () => config.codePatterns,
-    dataFlows: () => config.dataFlows ?? [],
-    sharedUtilities: () => config.sharedUtilities ?? [],
-    designTokens: () => config.designTokens ?? [],
-    antiDuplicationEntries: () => config.antiDuplicationEntries ?? [],
-    antiPatterns: () => config.antiPatterns ?? [],
-    domainGroupings: () => config.domainGroupings ?? [],
+    folderSuggestions: normalize(config.folderSuggestions),
+    codePatterns: normalize(config.codePatterns),
+    dataFlows: normalize(config.dataFlows),
+    sharedUtilities: normalize(config.sharedUtilities),
+    designTokens: normalize(config.designTokens),
+    antiDuplicationEntries: normalize(config.antiDuplicationEntries),
+    antiPatterns: normalize(config.antiPatterns),
+    domainGroupings: normalize(config.domainGroupings),
   };
 }

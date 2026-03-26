@@ -19,14 +19,14 @@ export function resolvePatterns(
 ): ResolvedPatterns {
   const active = allPatterns.filter(p => p.activationCheck(stack));
 
-  const patterns = active.flatMap(p => p.codePatterns());
-  const folders = active.flatMap(p => p.folderSuggestions());
-  const flows = active.flatMap(p => p.dataFlows());
-  const utilities = dedupeByName(active.flatMap(p => p.sharedUtilities()));
-  const tokens = active.flatMap(p => p.designTokens?.() ?? []);
-  const antiDuplication = active.flatMap(p => p.antiDuplicationEntries?.() ?? []);
-  const antiPatterns = active.flatMap(p => p.antiPatterns?.() ?? []);
-  const domainGroupings = active.flatMap(p => p.domainGroupings?.() ?? []);
+  const patterns = active.flatMap(p => p.codePatterns(stack));
+  const folders = active.flatMap(p => p.folderSuggestions(stack));
+  const flows = active.flatMap(p => p.dataFlows(stack));
+  const utilities = dedupeByName(active.flatMap(p => p.sharedUtilities(stack)));
+  const tokens = active.flatMap(p => p.designTokens?.(stack) ?? []);
+  const antiDuplication = active.flatMap(p => p.antiDuplicationEntries?.(stack) ?? []);
+  const antiPatterns = active.flatMap(p => p.antiPatterns?.(stack) ?? []);
+  const domainGroupings = active.flatMap(p => p.domainGroupings?.(stack) ?? []);
 
   return { patterns, folders, flows, utilities, tokens, antiDuplication, antiPatterns, domainGroupings };
 }
