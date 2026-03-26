@@ -99,6 +99,9 @@ function detectFrameworks(dir: string, excludeDirs: string[]): string[] {
       if (allDeps['typeorm']) frameworks.push('TypeORM');
       if (allDeps['tailwindcss']) frameworks.push('Tailwind');
       if (allDeps['vite']) frameworks.push('Vite');
+      if (allDeps['expo']) frameworks.push('Expo');
+      else if (allDeps['react-native']) frameworks.push('React Native');
+      if (allDeps['@supabase/supabase-js']) frameworks.push('Supabase');
     } catch {
       // ignore malformed package.json
     }
