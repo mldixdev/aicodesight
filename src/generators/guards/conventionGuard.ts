@@ -115,6 +115,8 @@ function checkTypeScriptConventions(ctx, conf, messages, path) {
     // camelCase functions/const
     if (['function', 'const'].includes(exp.type)) {
       if (isUpperCase(exp.name)) continue;
+      // PascalCase const in .tsx is a React component, not a naming violation
+      if (exp.type === 'const' && isPascalCase(exp.name) && ctx.ext === '.tsx') continue;
       if (!isCamelCase(exp.name)) {
         messages.push({
           severity: 'info',
