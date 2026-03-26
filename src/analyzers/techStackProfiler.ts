@@ -416,7 +416,17 @@ export function profileTechStack(
   // Merge: prefer package.json/csproj over .md, but .md fills gaps
   let frontend = fromPkg.frontend ?? fromMd.frontend;
   let backend = fromCsproj ?? fromPkg.backend ?? fromMd.backend;
-  const database = fromMd.database;
+  // Infer database from BaaS when not explicitly detected
+  let database = fromMd.database;
+  if (!database) {
+    const allLibs = [
+      ...(fromPkg.frontend?.libraries ?? []),
+      ...(fromPkg.backend?.libraries ?? []),
+    ];
+    if (allLibs.some(l => l.name.includes('supabase'))) {
+      database = { primary: 'PostgreSQL', libraries: [] };
+    }
+  }
 
   // Enrich frontend with shadcn if components.json exists
   if (frontend && hasShadcn(targetDir)) {
