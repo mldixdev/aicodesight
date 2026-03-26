@@ -268,6 +268,39 @@ Each feature contains EVERYTHING it needs: types, services, components, validati
 </recommended_structure>`;
   }
 
+  // Expo / React Native single-package structure
+  const hasExpoOrRN = profile.frameworks.some(f => ['Expo', 'React Native'].includes(f));
+  if (hasExpoOrRN) {
+    return `<recommended_structure>
+Recommended structure for Expo/React Native project:
+
+app/                       → Screens via file-based routing (Expo Router)
+  _layout.tsx              → Root layout (providers, auth guard)
+  index.tsx                → Entry redirect
+  (auth)/                  → Auth route group
+  (tabs)/                  → Main tab navigation group
+src/
+  modules/                 → Code organized by business domain
+    auth/                  → Everything auth-related together
+      services/            → API/BaaS calls (authService.ts)
+      hooks/               → React hooks (useAuth.ts)
+      types.ts             → Domain types and schemas
+      index.ts             → Barrel export
+    products/              → Everything product-related together
+  shared/                  → Reusable across 2+ modules
+    components/            → UI components (Button, Input, Card, Modal)
+    hooks/                 → Shared hooks (useAppState, useDebounce)
+    theme/                 → Design tokens (colors, typography, spacing)
+    utils/                 → Formatting utilities (formatCurrency, formatDate)
+  infrastructure/          → External service clients (Supabase, Firebase, etc.)
+
+Each folder MUST have an index.ts (barrel) that exports public members.
+Each module contains EVERYTHING it needs: services, hooks, types.
+Don't move anything to shared/ preemptively — only when 2+ modules need it.
+app/ is for screens only — no reusable components inside app/.
+</recommended_structure>`;
+  }
+
   const barrelNote = hasDotNet
     ? `In TypeScript code: each folder MUST have an index.ts (barrel) that exports public members.
 In .NET code: namespaces and using statements serve as barrels.`
