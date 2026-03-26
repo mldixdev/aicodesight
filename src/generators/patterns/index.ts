@@ -3,11 +3,15 @@ import { PatternModule, ResolvedPatterns } from './patternTypes';
 import { tanstackQueryPattern } from './tanstackQuery.patterns';
 import { dotnetMinimalApiPattern } from './dotnetMinimalApi.patterns';
 import { shadcnTailwindPattern } from './shadcnTailwind.patterns';
+import { reactNativeExpoPattern } from './reactNativeExpo.patterns';
+import { supabaseBaasPattern } from './supabaseBaas.patterns';
 
 const allPatterns: PatternModule[] = [
   tanstackQueryPattern,
   dotnetMinimalApiPattern,
   shadcnTailwindPattern,
+  reactNativeExpoPattern,
+  supabaseBaasPattern,
 ];
 
 export function resolvePatterns(
