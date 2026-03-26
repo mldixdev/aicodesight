@@ -191,10 +191,18 @@ CLAUDE.md                   # AI directives (project root)
 └─────────────────────────────────────────────────────┘
 ```
 
+## Supported Stacks
+
+- **Languages:** TypeScript, JavaScript, C#
+- **Frameworks:** React, Expo/React Native, Next.js, Vue, Angular, .NET (ASP.NET Core)
+- **Backend/BaaS:** Supabase, Firebase, Express, Fastify, NestJS
+- **Libraries:** TanStack Query, Zustand, shadcn/ui, Tailwind CSS, React Hook Form, Zod, Prisma, EF Core
+
+Pattern modules provide stack-specific guidance for: **Expo/React Native**, **Supabase BaaS**, **shadcn/Tailwind**, **.NET Minimal API**, and **TanStack Query**.
+
 ## Requirements
 
 - **Node.js** >= 18
-- Works with **TypeScript**, **JavaScript**, and **C#** projects
 - **Built for [Claude Code](https://docs.anthropic.com/en/docs/claude-code)** — generates CLAUDE.md, hooks, and guards designed for the Claude Code ecosystem
 
 ## Contributing
