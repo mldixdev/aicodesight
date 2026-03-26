@@ -12,7 +12,8 @@ export function buildNamingConventions(
   profile: ProjectProfile,
   wrapper: 'standalone' | 'inline',
 ): string {
-  const hasReact = profile.frameworks.some(f => ['React', 'Next.js'].includes(f));
+  const hasExpoOrRN = profile.frameworks.some(f => ['Expo', 'React Native'].includes(f));
+  const hasReact = hasExpoOrRN || profile.frameworks.some(f => ['React', 'Next.js'].includes(f));
   const hasJsBackend = profile.frameworks.some(f => ['Express', 'Fastify', 'NestJS'].includes(f));
   const hasDB = profile.frameworks.some(f => ['Prisma', 'TypeORM'].includes(f));
   const hasDotNet = profile.frameworks.includes('.NET');
@@ -81,9 +82,18 @@ export function buildNamingConventions(
       if (hasReact) {
         lines += `
 - Components: PascalCase.tsx (e.g., UserCard.tsx)
-- Pages: NamePage.tsx (e.g., LoginPage.tsx)
 - Hooks: useName.ts (e.g., useAuth.ts)
 - Stores: domain.store.ts (e.g., auth.store.ts)`;
+
+        if (hasExpoOrRN) {
+          lines += `
+- Services: {domain}Service.ts (e.g., authService.ts, productService.ts)
+- Module types: types.ts per module directory
+- Screens: file-based in app/, (group) syntax for route groups`;
+        } else {
+          lines += `
+- Pages: NamePage.tsx (e.g., LoginPage.tsx)`;
+        }
       }
 
       if (!hasJsBackend && !hasReact && !hasDotNet) {
@@ -171,11 +181,20 @@ When creating NEW files:`;
     if (hasReact) {
       lines += `
 
-### Frontend
+### ${hasExpoOrRN ? 'Mobile (Expo/React Native)' : 'Frontend'}
 - Components: PascalCase.tsx (e.g., UserCard.tsx)
-- Pages: NamePage.tsx (e.g., LoginPage.tsx)
 - Hooks: useName.ts (e.g., useAuth.ts)
 - Stores: domain.store.ts (e.g., auth.store.ts)`;
+
+      if (hasExpoOrRN) {
+        lines += `
+- Services: {domain}Service.ts (e.g., authService.ts, productService.ts)
+- Module types: types.ts per module directory
+- Screens: file-based in app/, (group) syntax for route groups`;
+      } else {
+        lines += `
+- Pages: NamePage.tsx (e.g., LoginPage.tsx)`;
+      }
     }
 
     if (!hasJsBackend && !hasReact && !hasDotNet) {
