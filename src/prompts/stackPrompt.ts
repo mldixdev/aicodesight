@@ -27,6 +27,8 @@ export async function promptForStack(): Promise<StackSelection> {
     const framework = await select<string>({
       message: 'Frontend framework?',
       choices: [
+        { value: 'Expo', name: 'Expo (React Native)' },
+        { value: 'React Native', name: 'React Native (bare)' },
         { value: 'React', name: 'React' },
         { value: 'Next.js', name: 'Next.js' },
         { value: 'Vue', name: 'Vue' },
@@ -37,21 +39,30 @@ export async function promptForStack(): Promise<StackSelection> {
 
     // 3. Frontend libraries (conditional on React/Next.js ecosystem)
     let libraries: string[] = [];
-    const isReactEco = framework === 'React' || framework === 'Next.js';
+    const isReactEco = ['React', 'Next.js', 'Expo', 'React Native'].includes(framework);
 
     if (isReactEco) {
-      libraries = await checkbox<string>({
-        message: 'Additional frontend libraries? (space to select)',
-        choices: [
-          { value: 'tanstack-query', name: 'TanStack Query (data fetching)' },
+      const isMobile = framework === 'Expo' || framework === 'React Native';
+
+      const libraryChoices = [
+        { value: 'tanstack-query', name: 'TanStack Query (data fetching)' },
+        { value: 'zustand', name: 'Zustand (state management)' },
+        { value: 'react-hook-form', name: 'React Hook Form (forms)' },
+        { value: 'zod', name: 'Zod (validation)' },
+        ...(!isMobile ? [
           { value: 'tanstack-table', name: 'TanStack Table (tables)' },
           { value: 'tanstack-router', name: 'TanStack Router (routing)' },
           { value: 'tailwind', name: 'Tailwind CSS (styling)' },
           { value: 'shadcn', name: 'shadcn/ui (components)' },
-          { value: 'zustand', name: 'Zustand (state management)' },
-          { value: 'react-hook-form', name: 'React Hook Form (forms)' },
-          { value: 'zod', name: 'Zod (validation)' },
-        ],
+        ] : [
+          { value: 'expo-router', name: 'Expo Router (file-based routing)' },
+          { value: 'react-navigation', name: 'React Navigation (stack/tab routing)' },
+        ]),
+      ];
+
+      libraries = await checkbox<string>({
+        message: 'Additional frontend libraries? (space to select)',
+        choices: libraryChoices,
       });
     }
 
@@ -64,6 +75,8 @@ export async function promptForStack(): Promise<StackSelection> {
     const framework = await select<string>({
       message: 'Backend framework?',
       choices: [
+        { value: 'Supabase', name: 'Supabase (BaaS)' },
+        { value: 'Firebase', name: 'Firebase (BaaS)' },
         { value: 'Express', name: 'Express' },
         { value: 'Fastify', name: 'Fastify' },
         { value: 'NestJS', name: 'NestJS' },
@@ -87,11 +100,20 @@ export async function promptForStack(): Promise<StackSelection> {
       });
     }
 
-    backend = { framework, libraries };
+    // BaaS backends don't need ORM or DB engine questions
+    const isBaas = framework === 'Supabase' || framework === 'Firebase';
+    if (isBaas) {
+      backend = { framework, libraries: [framework.toLowerCase()] };
+      if (framework === 'Supabase') {
+        database = { engine: 'PostgreSQL' };
+      }
+    } else {
+      backend = { framework, libraries };
+    }
 
-    // 6. ORM (for non-.NET backends)
+    // 6. ORM (for non-.NET, non-BaaS backends)
     let selectedOrm: string | null = null;
-    if (framework !== '.NET') {
+    if (framework !== '.NET' && !isBaas) {
       const ormChoice = await select<string>({
         message: 'ORM / Database?',
         choices: [
