@@ -44,16 +44,40 @@ It also installs **runtime guards** — hooks that intercept AI actions in real-
 - **Guard Pipeline** — Runtime hooks that detect and prevent duplication as AI writes code
 - **Convention Enforcement** — Validates naming patterns, file sizes, and structural rules
 - **Session Memory** — Persists context across AI session compactions
-- **Pattern Modules** — Stack-specific best practices (shadcn/Tailwind, .NET Minimal API, TanStack Query)
+- **Pattern Modules** — Stack-specific best practices (Expo/React Native, Supabase BaaS, shadcn/Tailwind, .NET Minimal API, TanStack Query)
 - **CLAUDE.md Generation** — Produces structured directives tailored to your project
 
 ## Quick Start
+
+### Step 1: Initialize
 
 ```bash
 npx aicodesight init
 ```
 
-That's it. AICodeSight will detect your project type, analyze the codebase, and generate everything.
+AICodeSight detects your project type, analyzes the codebase, and generates the architectural layer. After init, your CLAUDE.md has structure, conventions, and guards — but module descriptions are empty.
+
+### Step 2: Enrich
+
+Run an enrichment session to fill in what each function does. AICodeSight generates the instructions at `.claude/enrich-capability-index.md` — paste them into a Claude Code session:
+
+```bash
+claude -m sonnet "Follow the instructions in .claude/enrich-capability-index.md"
+```
+
+This reads your actual source code and populates `description`, `domain`, `action`, and `entity` for each entry in the capability index. Sonnet is recommended for this task — it's cost-effective and the instructions are self-contained.
+
+### Step 3: Update
+
+After enrichment, regenerate CLAUDE.md so it includes the enriched module descriptions:
+
+```bash
+npx aicodesight update
+```
+
+### Ongoing
+
+As your code evolves, run `aicodesight update` periodically to keep artifacts in sync. New files will appear as `"extracted"` entries — run another enrichment session to describe them.
 
 ## CLI Commands
 
@@ -129,9 +153,12 @@ After running `aicodesight init`, you'll find a `.claude/` directory with:
 │   ├── size.js             # File size alerts
 │   └── ...
 ├── settings.json           # Hook configuration
-└── working-memory.json     # Session persistence
+├── working-memory.json     # Session persistence
+├── aicodesight-meta.json   # Init metadata
+└── enrich-capability-index.md  # Enrichment session instructions
 
 CLAUDE.md                   # AI directives (project root)
+.claudeignore               # Patterns to exclude from AI context
 ```
 
 ## How It Works
@@ -149,7 +176,8 @@ CLAUDE.md                   # AI directives (project root)
 │                   Detect existing duplicates        │
 │                                                     │
 │  3. GENERATE      Create registry & capability      │
-│     ↓             index with enriched descriptions  │
+│     ↓             index (descriptions empty until   │
+│                   enrichment session)               │
 │                                                     │
 │  4. GUARD         Install runtime hooks that        │
 │     ↓             intercept AI actions in real-time │
@@ -158,8 +186,8 @@ CLAUDE.md                   # AI directives (project root)
 │                   specific directives & conventions  │
 │                                                     │
 ├─────────────────────────────────────────────────────┤
-│  Result: AI assistant now sees your full codebase   │
-│  and is blocked from creating duplicates.           │
+│  Result: AI sees structure, exports, and guards.    │
+│  Run enrichment session to add descriptions.        │
 └─────────────────────────────────────────────────────┘
 ```
 
