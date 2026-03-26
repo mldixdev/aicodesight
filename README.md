@@ -75,9 +75,22 @@ After enrichment, regenerate CLAUDE.md so it includes the enriched module descri
 npx aicodesight update
 ```
 
+### Step 4 (optional): Semantic Duplication Guard
+
+After enrichment, you can enable a guard that uses AI embeddings to detect semantically similar functions — even if they have different names.
+
+```bash
+npm install @xenova/transformers
+npx aicodesight update --embeddings
+```
+
+This computes [BGE-small](https://huggingface.co/BAAI/bge-small-en-v1.5) embeddings (384-dim) for every enriched entry in the capability index and stores them in `.claude/embeddings-cache.json`. The semantic duplication guard then uses cosine similarity to warn when a new function is too similar to an existing one.
+
+Requires enriched descriptions (Step 2) — entries without descriptions are skipped.
+
 ### Ongoing
 
-As your code evolves, run `aicodesight update` periodically to keep artifacts in sync. New files will appear as `"extracted"` entries — run another enrichment session to describe them.
+As your code evolves, run `aicodesight update` periodically to keep artifacts in sync. New files will appear as `"extracted"` entries — run another enrichment session to describe them, then `update --embeddings` to refresh the semantic guard.
 
 ## CLI Commands
 
@@ -96,7 +109,7 @@ aicodesight init [directory]
 | `--dry-run` | Preview without writing files | `false` |
 | `--no-blueprint` | Skip architectural blueprint | — |
 | `--no-interactive` | Skip prompts, use auto-detection | — |
-| `--embeddings` | Enable semantic duplication guard | `false` |
+| `--embeddings` | Enable semantic duplication guard (requires `@xenova/transformers` and enriched descriptions) | `false` |
 
 ### `aicodesight audit`
 
@@ -124,7 +137,7 @@ aicodesight update [directory]
 |--------|-------------|---------|
 | `--only <target>` | What to update: `claude-md`, `inventory`, `duplicates`, `hooks`, `registry`, `memory`, `all` | `all` |
 | `--dry-run` | Preview without writing files | `false` |
-| `--embeddings` | Enable semantic duplication guard | `false` |
+| `--embeddings` | Enable semantic duplication guard (requires `@xenova/transformers` and enriched descriptions) | `false` |
 
 ## What Gets Generated
 
@@ -155,7 +168,8 @@ After running `aicodesight init`, you'll find a `.claude/` directory with:
 ├── settings.json           # Hook configuration
 ├── working-memory.json     # Session persistence
 ├── aicodesight-meta.json   # Init metadata
-└── enrich-capability-index.md  # Enrichment session instructions
+├── enrich-capability-index.md  # Enrichment session instructions
+└── embeddings-cache.json   # BGE-small embeddings (if --embeddings enabled)
 
 CLAUDE.md                   # AI directives (project root)
 .claudeignore               # Patterns to exclude from AI context
