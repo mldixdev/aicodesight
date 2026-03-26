@@ -62,9 +62,20 @@ const LIBRARY_CATEGORIES: Record<string, LibraryCategory> = {
   'ClosedXML': 'export',
   'QuestPDF': 'export',
   'Swashbuckle.AspNetCore': 'other',
+  // Mobile
+  'expo': 'mobile-framework',
+  'react-native': 'mobile-framework',
+  // Routing (RN)
+  'expo-router': 'routing',
+  '@react-navigation/native': 'routing',
+  // BaaS
+  '@supabase/supabase-js': 'baas',
+  'firebase': 'baas',
+  // Styling (RN bridge)
+  'nativewind': 'styling',
 };
 
-const FRONTEND_PRIMARIES = ['react', 'next', 'vue', 'nuxt', 'angular', 'svelte', 'solid-js'];
+const FRONTEND_PRIMARIES = ['expo', 'react-native', 'react', 'next', 'vue', 'nuxt', 'angular', 'svelte', 'solid-js'];
 const BACKEND_PRIMARIES_JS = ['express', 'fastify', 'nestjs', 'hono', 'koa'];
 
 function categorize(libName: string): LibraryCategory {
@@ -125,10 +136,25 @@ function parsePackageJson(targetDir: string): { frontend: StackLayer | null; bac
     buildTool: detectBuildTool(allDeps),
   } : null;
 
-  const backend: StackLayer | null = backendPrimary ? {
+  let backend: StackLayer | null = backendPrimary ? {
     primary: backendPrimary,
     libraries: backendLibs,
   } : null;
+
+  // Detect BaaS as backend when no JS backend framework is present
+  if (!backend) {
+    const baasLibs = libs.filter(l => l.category === 'baas');
+    if (baasLibs.length > 0) {
+      const primaryBaas = baasLibs[0];
+      const baasName = primaryBaas.name.includes('supabase') ? 'Supabase'
+        : primaryBaas.name.includes('firebase') ? 'Firebase'
+        : primaryBaas.name;
+      backend = {
+        primary: `${baasName} ${primaryBaas.version ?? ''}`.trim(),
+        libraries: baasLibs,
+      };
+    }
+  }
 
   return { frontend, backend };
 }
@@ -440,6 +466,12 @@ const SELECTION_LIB_MAP: Record<string, { name: string; category: LibraryCategor
   'prisma': { name: '@prisma/client', category: 'orm' },
   'typeorm': { name: 'typeorm', category: 'orm' },
   'drizzle': { name: 'drizzle-orm', category: 'orm' },
+  // Mobile
+  'expo-router': { name: 'expo-router', category: 'routing' },
+  'react-navigation': { name: '@react-navigation/native', category: 'routing' },
+  // BaaS
+  'supabase': { name: '@supabase/supabase-js', category: 'baas' },
+  'firebase': { name: 'firebase', category: 'baas' },
 };
 
 export function buildTechStackFromSelection(selection: StackSelection): TechStackProfile {
