@@ -59,38 +59,36 @@ AICodeSight detects your project type, analyzes the codebase, and generates the 
 
 ### Step 2: Enrich
 
-Run an enrichment session to fill in what each function does. AICodeSight generates the instructions at `.claude/enrich-capability-index.md` — paste them into a Claude Code session:
+Run an enrichment session: the AI reads your source code, understands each function's purpose, and writes a description for every entry in the capability index. These descriptions are then included in CLAUDE.md, giving Claude full visibility into what your codebase does — not just where things are, but why they exist — **reducing the chance of creating duplicate functionality.**
 
 ```bash
 claude -m sonnet "Follow the instructions in .claude/enrich-capability-index.md"
 ```
 
-This reads your actual source code and populates `description`, `domain`, `action`, and `entity` for each entry in the capability index. Sonnet is recommended for this task — it's cost-effective and the instructions are self-contained.
+Sonnet is recommended for this task — it's cost-effective and the instructions are self-contained.
 
-### Step 3: Update
+### Step 3 (optional): Semantic Duplication Guard
 
-After enrichment, regenerate CLAUDE.md so it includes the enriched module descriptions:
-
-```bash
-npx aicodesight update
-```
-
-### Step 4 (optional): Semantic Duplication Guard
-
-After enrichment, you can enable a guard that uses AI embeddings to detect semantically similar functions — even if they have different names.
+Install semantic duplication detection — catches similar functions even with different names, using AI embeddings:
 
 ```bash
 npm install @xenova/transformers
-npx aicodesight update --embeddings
 ```
-
-This computes [BGE-small](https://huggingface.co/BAAI/bge-small-en-v1.5) embeddings (384-dim) for every enriched entry in the capability index and stores them in `.claude/embeddings-cache.json`. The semantic duplication guard then uses cosine similarity to warn when a new function is too similar to an existing one.
 
 Requires enriched descriptions (Step 2) — entries without descriptions are skipped.
 
+### Step 4: Update
+
+Regenerate CLAUDE.md so it includes the enriched module descriptions:
+
+```bash
+npx aicodesight update              # without semantic guard
+npx aicodesight update --embeddings  # with semantic guard (requires step 3)
+```
+
 ### Ongoing
 
-As your code evolves, run `aicodesight update` periodically to keep artifacts in sync. New files will appear as `"extracted"` entries — run another enrichment session to describe them, then `update --embeddings` to refresh the semantic guard.
+As your code evolves, run `aicodesight update` periodically to keep artifacts in sync. New entries will appear without descriptions — run another enrichment session to describe them, then update again to include them in CLAUDE.md.
 
 ## CLI Commands
 
