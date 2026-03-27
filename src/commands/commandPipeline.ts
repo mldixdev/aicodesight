@@ -243,3 +243,113 @@ export function setupHookPipeline(
 
   return generatedFiles;
 }
+
+/**
+ * Generates the enrichment prompt markdown that guides AI assistants through
+ * the capability-index enrichment process with format and execution constraints.
+ */
+export function generateEnrichmentPrompt(): string {
+  return `# Capability Index Enrichment
+
+## Execution Restriction
+
+This process MUST be executed directly by the main agent.
+**PROHIBITED**: delegating to subagents (Task tool), external scripts, Bash commands,
+or any automated process. Each source file must be read with the Read tool by YOU,
+not inferred, delegated, or processed programmatically.
+
+## Critical Rule
+
+**NEVER infer descriptions from function names or signatures.**
+For EACH entry, you MUST read the source file before writing any field.
+If you haven't read the code, don't write the description — leave it as \`null\`.
+
+## Process
+
+Read \`.claude/capability-index.json\`. For each entry with \`"source": "extracted"\`:
+
+1. **Read the source file** at the indicated \`file\` and \`line\` — this is MANDATORY
+2. Understand what the function/component does by reading its actual implementation
+3. Fill in the missing fields based on what you READ:
+   - **description**: A concise one-liner explaining what it does and why it exists
+   - **domain**: Business domain (e.g.: "auth", "payments", "ui", "infrastructure")
+   - **action**: Primary action (e.g.: "create", "validate", "transform", "retrieve")
+   - **entity**: Entity it operates on (e.g.: "user", "invoice", "config")
+   - **dependsOn**: Already pre-populated with static imports from the file. Verify and refine:
+     - Add undetected dependencies (dynamic imports, indirect calls, injected services)
+     - Remove imports that are only generic utility types (e.g.: \`Request\`, \`Response\`)
+     - Keep dependencies on project functions/modules that ARE actually used
+4. Change \`source\` from \`"extracted"\` to \`"enriched"\`
+
+## File Format — CRITICAL (Guard-Enforced)
+
+The file uses **compact serialization**: header fields on separate lines, then each
+entry on exactly ONE line inside the \`"entries"\` array. This allows Claude to read
+the entire file in a single pass (the Read tool has a 2000-line limit).
+
+**A format validation guard will BLOCK writes that violate this format.**
+
+### What gets BLOCKED:
+1. **Compressed format** — entire file on 1-3 lines (e.g., \`JSON.stringify(data)\`
+   or Python \`json.dump(data, f, separators=(',',':'))\`) → **BLOCKED**
+2. **Pretty-printed format** — each entry split across multiple lines (e.g.,
+   \`JSON.stringify(data, null, 2)\` or Python \`json.dump(data, f, indent=2)\`) → **BLOCKED**
+3. **Invalid JSON** — syntax errors, missing commas → **BLOCKED**
+
+### Correct approach:
+- Use the **Edit tool** to replace individual entry lines in-place
+- NEVER use \`JSON.stringify()\` or \`json.dump()\` on the whole file
+- NEVER write a script to process the file — edit lines directly
+- If you must rewrite the whole file, keep header on separate lines and each
+  entry in the array on a single line (no line breaks within an entry)
+
+### Example of correct format:
+\`\`\`json
+{
+  "version": "2.0",
+  "generatedAt": "2026-01-15T10:00:00Z",
+  "source": "hybrid",
+  "entries": [
+    {"name":"createUser","type":"function","file":"src/users.ts","line":42,...,"source":"enriched"},
+    {"name":"deleteUser","type":"function","file":"src/users.ts","line":78,...,"source":"enriched"}
+  ]
+}
+\`\`\`
+
+## Workflow
+
+1. Group entries by file — multiple exports from the same file are read together
+2. Process in batches of ~20 entries (no more, to maintain accuracy)
+3. After each batch, use the Edit tool to update modified entries in-place
+4. **Verify**: Read \`.claude/capability-index.json\` after each batch to confirm the format is intact
+   - Each entry should be on exactly one line
+   - If the format broke, stop and fix before continuing
+5. Continue with the next batch until complete
+
+## Example
+
+Entry before (line in the file, with dependsOn pre-populated by static analysis):
+\`\`\`
+    {"name":"createUser","type":"function","file":"src/controllers/users.ts","line":42,"signature":"(req: Request, res: Response) => Promise<void>","signatureShape":"async-fetch","effects":[],"description":null,"domain":null,"action":null,"entity":null,"dependsOn":["validateEmail","hashPassword","UserSchema"],"source":"extracted"},
+\`\`\`
+
+Step 1 — Read src/controllers/users.ts line 42 and understand the implementation.
+
+Entry after (use Edit tool to replace the line):
+\`\`\`
+    {"name":"createUser","type":"function","file":"src/controllers/users.ts","line":42,"signature":"(req: Request, res: Response) => Promise<void>","signatureShape":"async-fetch","effects":["database"],"description":"Creates new user validating unique email and hashing password","domain":"auth","action":"create","entity":"user","dependsOn":["validateEmail","hashPassword","sendWelcomeEmail"],"source":"enriched"},
+\`\`\`
+
+Note: \`UserSchema\` (type-only) was removed, \`sendWelcomeEmail\` (indirect call) was added,
+\`effects\` updated to \`["database"]\`, and \`source\` changed to \`"enriched"\`.
+
+## Constraints
+
+- **Do not modify** entries with \`source: "enriched"\` or \`source: "declared"\` — they are already complete
+- **Only process** entries with \`source: "extracted"\`
+- **Do not invent** — if you cannot determine a field with confidence, leave it as \`null\`
+- **Do not group in a single Write** all entries — save progress in batches
+- **Do not omit fields** from the original JSON (name, type, line, signature, signatureShape, effects)
+- **PRESERVE compact format** — one entry per line, use Edit tool to modify in-place
+`;
+}
