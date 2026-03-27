@@ -11,7 +11,7 @@ import { showHeader, showStructuralDuplicationSummary, showCapabilitySummary } f
 import { defaultSectionFlags } from '../templates/templateHelpers';
 import {
   runAnalysisPipeline, readExistingJson, writeDualArtifact, serializeRegistry,
-  generateAndWriteCapabilityIndex, setupHookPipeline,
+  generateAndWriteCapabilityIndex, setupHookPipeline, generateEnrichmentPrompt,
 } from './commandPipeline';
 
 function detectCurrentHooksMode(claudeDir: string): HooksMode {
@@ -101,6 +101,10 @@ export async function runUpdate(options: UpdateOptions): Promise<void> {
     capabilityIndex = capResult.capabilityIndex;
     showCapabilitySummary(capabilitySummary);
     updatedFiles.push('.claude/structural-duplicates.md', ...capResult.files);
+
+    // Regenerate enrichment prompt (always keep up-to-date with latest instructions)
+    fs.writeFileSync(path.join(claudeDir, 'enrich-capability-index.md'), generateEnrichmentPrompt(), 'utf-8');
+    updatedFiles.push('.claude/enrich-capability-index.md');
 
     // Semantic embeddings: compute if --embeddings flag or guard already enabled
     const guardConfigPath = path.join(claudeDir, 'hooks', 'guard-config.json');
@@ -221,4 +225,34 @@ export async function runUpdate(options: UpdateOptions): Promise<void> {
     console.log(`  ${chalk.green('✓')} ${f}`);
   }
   console.log('');
+
+  // 7. Next steps based on capability index state
+  if (capabilitySummary) {
+    const described = capabilitySummary.declaredCount + capabilitySummary.enrichedCount;
+    const pending = capabilitySummary.extractedCount;
+
+    if (described === 0 && pending > 0) {
+      // All extracted — no enrichment done yet
+      console.log(`  ${chalk.yellow('\u26A0')} ${pending} functions still without descriptions`);
+      console.log(chalk.gray('    Run enrichment session to add them:'));
+      console.log(chalk.cyan('    claude -m sonnet "Follow the instructions in .claude/enrich-capability-index.md"'));
+      console.log(chalk.gray('    Then run update again to include descriptions in CLAUDE.md:'));
+      console.log(chalk.cyan('    npx aicodesight update'));
+      console.log('');
+    } else if (described > 0 && pending > 0) {
+      // Mix — some new entries need enrichment
+      console.log(`  ${chalk.green(described + ' enriched')}, ${chalk.yellow(pending + ' new entries without descriptions')}`);
+      console.log(chalk.gray('    Run enrichment session to describe them:'));
+      console.log(chalk.cyan('    claude -m sonnet "Follow the instructions in .claude/enrich-capability-index.md"'));
+      console.log(chalk.gray('    Then run update again to include descriptions in CLAUDE.md:'));
+      console.log(chalk.cyan('    npx aicodesight update'));
+      console.log('');
+    } else if (described > 0 && pending === 0) {
+      // All enriched
+      console.log(`  ${chalk.green('\u2713')} All ${described} entries have descriptions \u2014 CLAUDE.md is fully enriched`);
+      console.log(chalk.gray('    As your code evolves, run update and enrichment periodically to keep'));
+      console.log(chalk.gray('    new functions visible to Claude.'));
+      console.log('');
+    }
+  }
 }

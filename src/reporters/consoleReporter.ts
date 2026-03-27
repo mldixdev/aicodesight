@@ -89,12 +89,18 @@ export function showStructuralDuplicationSummary(summary: StructuralDuplicationS
 
 export function showCapabilitySummary(summary: CapabilityIndexSummary): void {
   console.log(`  ${chalk.green('\u2713')} ${summary.totalEntries} functions documented in capability-index.json`);
-  if (summary.declaredCount > 0) {
-    console.log(`  ${chalk.blue('i')} ${summary.declaredCount} with declared intent, ${summary.extractedCount} extracted from code`);
+
+  const described = summary.declaredCount + summary.enrichedCount;
+  const pending = summary.extractedCount;
+
+  if (described > 0 && pending > 0) {
+    console.log(`    ${chalk.gray('\u2514')} ${chalk.green(described + ' with descriptions')}, ${chalk.yellow(pending + ' pending')} \u2014 run enrichment to describe them`);
+  } else if (pending > 0) {
+    console.log(`    ${chalk.gray('\u2514')} ${chalk.yellow(pending + ' without descriptions')} \u2014 enrichment session will add them`);
+  } else if (described > 0) {
+    console.log(`    ${chalk.gray('\u2514')} ${chalk.green('all entries have descriptions')}`);
   }
-  if (summary.enrichedCount > 0) {
-    console.log(`  ${chalk.blue('i')} ${summary.enrichedCount} enriched via Path A`);
-  }
+
   console.log('');
 }
 
@@ -145,7 +151,29 @@ export function showFinalSummary(
   if (generatedFiles.length > 0) {
     console.log(`  ${chalk.green(`${generatedFiles.length} files generated`)}`);
     console.log('');
-    console.log(chalk.gray('  Next step: review CLAUDE.md and adjust as needed'));
+
+    if (profile.type === 'new') {
+      console.log(chalk.bold('  Next steps:'));
+      console.log(chalk.gray('    1. Review CLAUDE.md and .claude/blueprint.md'));
+      console.log(chalk.gray('       These files guide the AI on how to structure your project'));
+      console.log(chalk.gray('    2. Start building \u2014 guards will enforce conventions as you go'));
+    } else {
+      console.log(chalk.bold('  Next steps:'));
+      console.log(chalk.gray('    1. Review CLAUDE.md and adjust as needed'));
+      console.log(chalk.gray('    2. Run an enrichment session: the AI reads your source code, understands'));
+      console.log(chalk.gray('       each function\'s purpose, and writes a description for every entry in'));
+      console.log(chalk.gray('       the capability index. These descriptions are then included in CLAUDE.md,'));
+      console.log(chalk.gray('       giving Claude full visibility into what your codebase does \u2014 not just'));
+      console.log(chalk.gray('       where things are, but why they exist \u2014'));
+      console.log('       ' + chalk.bold.green('REDUCING THE CHANCE OF CREATING DUPLICATE FUNCTIONALITY.'));
+      console.log(chalk.cyan('       claude -m sonnet "Follow the instructions in .claude/enrich-capability-index.md"'));
+      console.log(chalk.gray('    3. (Optional) Install semantic duplication detection \u2014 catches similar'));
+      console.log(chalk.gray('       functions even with different names, using AI embeddings:'));
+      console.log(chalk.cyan('       npm install @xenova/transformers'));
+      console.log(chalk.gray('    4. Regenerate CLAUDE.md with enriched descriptions:'));
+      console.log(chalk.cyan('       npx aicodesight update') + chalk.gray('              (without semantic guard)'));
+      console.log(chalk.cyan('       npx aicodesight update --embeddings') + chalk.gray('  (with semantic guard, requires step 3)'));
+    }
   }
 
   console.log('');
